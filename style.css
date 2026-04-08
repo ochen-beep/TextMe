@@ -1,7 +1,7 @@
-/* ══════════════════════════════════════════════════
-   TextMe — Phone Messenger UI Styles
+/* ══════════════════════════════════════════════════════
+   TextMe — Phone Messenger UI Styles v1.0
    License: AGPL-3.0
-   ══════════════════════════════════════════════════ */
+   ══════════════════════════════════════════════════════ */
 
 /* ── CSS Variables (themes & color schemes) ── */
 
@@ -55,7 +55,7 @@
     width: 56px;
     height: 56px;
     border-radius: 50%;
-    background: var(--textme-accent, #7c3aed);
+    background: #7c3aed; /* fallback, accent not inherited from phone */
     color: #fff;
     display: flex;
     align-items: center;
@@ -66,6 +66,7 @@
     z-index: 10000;
     transition: transform 0.2s, box-shadow 0.2s;
     user-select: none;
+    touch-action: none;
 }
 .textme-bubble:hover {
     transform: scale(1.1);
@@ -159,11 +160,16 @@
     background: var(--textme-header-bg);
     border-bottom: 1px solid var(--textme-border);
     flex-shrink: 0;
+    cursor: grab;
+    user-select: none;
+}
+.textme-header:active {
+    cursor: grabbing;
 }
 
 .textme-header-back {
     cursor: pointer;
-    color: var(--textme-accent);
+    color: var(--textme-accent, #7c3aed);
     padding: 4px;
     font-size: 16px;
 }
@@ -292,10 +298,10 @@
 .textme-msg {
     display: flex;
     max-width: 80%;
-    animation: textme-fadeIn 0.2s ease;
+    animation: textme-fadeIn 0.25s ease;
 }
 @keyframes textme-fadeIn {
-    from { opacity: 0; transform: translateY(6px); }
+    from { opacity: 0; transform: translateY(8px); }
     to   { opacity: 1; transform: translateY(0); }
 }
 
@@ -419,11 +425,16 @@
     outline: none;
     line-height: 1.4;
     max-height: 100px;
-    overflow-y: auto;
+    overflow-y: hidden;
     transition: border-color 0.15s;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+.textme-input::-webkit-scrollbar {
+    display: none;
 }
 .textme-input:focus {
-    border-color: var(--textme-accent);
+    border-color: var(--textme-accent, #7c3aed);
 }
 .textme-input::placeholder {
     color: var(--textme-text-muted);
@@ -433,7 +444,7 @@
     width: 38px;
     height: 38px;
     border-radius: 50%;
-    background: var(--textme-accent);
+    background: var(--textme-accent, #7c3aed);
     color: #fff;
     border: none;
     cursor: pointer;
@@ -453,6 +464,33 @@
 .textme-btn-send:disabled {
     opacity: 0.5;
     cursor: not-allowed;
+}
+
+/* ── Resize Handle ── */
+
+.textme-resize-handle {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 20px;
+    height: 20px;
+    cursor: nwse-resize;
+    z-index: 10;
+    background: transparent;
+}
+.textme-resize-handle::after {
+    content: '';
+    position: absolute;
+    bottom: 4px;
+    right: 4px;
+    width: 10px;
+    height: 10px;
+    border-right: 2px solid var(--textme-text-muted, #71717a);
+    border-bottom: 2px solid var(--textme-text-muted, #71717a);
+    opacity: 0.5;
+}
+.textme-resize-handle:hover::after {
+    opacity: 1;
 }
 
 /* ── Context Menu ── */
@@ -492,6 +530,61 @@
     color: #ef4444 !important;
 }
 
+/* ── Schedule Editor ── */
+
+.textme-schedule-grid {
+    overflow-x: auto;
+    font-size: 11px;
+    margin: 8px 0;
+}
+.textme-schedule-header,
+.textme-schedule-row {
+    display: flex;
+    gap: 1px;
+}
+.textme-schedule-header span,
+.textme-schedule-day {
+    min-width: 30px;
+    text-align: center;
+    padding: 2px;
+    font-weight: 600;
+    color: var(--SmartThemeQuoteColor, #888);
+}
+.textme-schedule-hour {
+    min-width: 16px !important;
+    font-size: 9px;
+}
+.textme-schedule-cell {
+    min-width: 16px;
+    height: 16px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: transform 0.1s;
+}
+.textme-schedule-cell:hover {
+    transform: scale(1.3);
+}
+.textme-sched-online { background: #22c55e; }
+.textme-sched-idle { background: #f59e0b; }
+.textme-sched-dnd { background: #ef4444; }
+.textme-sched-offline { background: #71717a; }
+
+.textme-schedule-legend {
+    display: flex;
+    gap: 12px;
+    margin-top: 6px;
+    font-size: 11px;
+    color: var(--SmartThemeQuoteColor, #888);
+}
+.textme-sched-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 3px;
+    vertical-align: middle;
+}
+
 /* ── Settings Panel ── */
 
 .textme-settings h4 {
@@ -522,5 +615,8 @@
         width: 48px;
         height: 48px;
         font-size: 18px;
+    }
+    .textme-resize-handle {
+        display: none;
     }
 }

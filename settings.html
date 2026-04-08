@@ -1,7 +1,7 @@
 <div class="textme-settings">
     <div class="inline-drawer">
         <div class="inline-drawer-toggle inline-drawer-header">
-            <b>📱 TextMe</b>
+            <b>📱 TextMe v1.0</b>
             <div class="inline-drawer-icon fa-solid fa-circle-chevron-down down"></div>
         </div>
         <div class="inline-drawer-content">
@@ -11,7 +11,7 @@
             <div class="flex-container flexFlowColumn">
                 <label class="checkbox_label">
                     <input id="textme_enabled" type="checkbox" />
-                    <span data-i18n="Enable Phone">Enable Phone</span>
+                    <span>Enable Phone</span>
                 </label>
 
                 <label>Max Response Tokens</label>
@@ -33,7 +33,7 @@
             <h4>Prompts</h4>
             <div class="flex-container flexFlowColumn">
                 <label>SMS System Prompt</label>
-                <textarea id="textme_sms_prompt" rows="6" class="text_pole"></textarea>
+                <textarea id="textme_sms_prompt" rows="8" class="text_pole"></textarea>
                 <button id="textme_sms_prompt_reset" class="menu_button">Reset to default</button>
 
                 <label>Selfie Prompt</label>
@@ -43,6 +43,14 @@
                 <label>Summary Prompt</label>
                 <textarea id="textme_summary_prompt" rows="4" class="text_pole"></textarea>
                 <button id="textme_summary_prompt_reset" class="menu_button">Reset to default</button>
+
+                <label>Schedule Prompt</label>
+                <textarea id="textme_schedule_prompt" rows="4" class="text_pole"></textarea>
+                <button id="textme_schedule_prompt_reset" class="menu_button">Reset to default</button>
+
+                <label>Autonomous Prompt</label>
+                <textarea id="textme_autonomous_prompt" rows="4" class="text_pole"></textarea>
+                <button id="textme_autonomous_prompt_reset" class="menu_button">Reset to default</button>
             </div>
 
             <hr />
@@ -63,7 +71,7 @@
                 </select>
 
                 <label>Image API Endpoint</label>
-                <input id="textme_image_api_url" type="text" class="text_pole" placeholder="https://..." />
+                <input id="textme_image_api_url" type="text" class="text_pole" placeholder="https://api.openai.com/v1/images/generations" />
 
                 <label>Image API Key</label>
                 <input id="textme_image_api_key" type="password" class="text_pole" placeholder="API key" />
@@ -85,7 +93,9 @@
                     <input id="textme_schedule_enabled" type="checkbox" />
                     <span>Enable Schedule</span>
                 </label>
-                <button id="textme_generate_schedule" class="menu_button">Generate Schedule</button>
+                <button id="textme_generate_schedule" class="menu_button">
+                    <i class="fa-solid fa-calendar-days"></i> Generate Schedule
+                </button>
                 <div id="textme_schedule_editor"></div>
             </div>
 
@@ -153,6 +163,16 @@
                     <input id="textme_show_timestamps" type="checkbox" checked />
                     <span>Show Timestamps</span>
                 </label>
+            </div>
+
+            <hr />
+
+            <!-- Debug -->
+            <h4>Debug</h4>
+            <div class="flex-container flexFlowColumn">
+                <button id="textme_export_logs" class="menu_button">
+                    <i class="fa-solid fa-file-export"></i> Export Logs
+                </button>
             </div>
 
         </div>
