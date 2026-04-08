@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════════════════════
-   TextMe — Phone Messenger UI Styles v1.0.1
+   TextMe — Phone Messenger UI Styles v1.0.2
    License: AGPL-3.0
    ══════════════════════════════════════════════════════ */
 
@@ -179,12 +179,21 @@
     width: 40px;
     height: 40px;
     flex-shrink: 0;
+    cursor: pointer;
+    transition: opacity 0.15s;
+}
+.textme-header-avatar:hover {
+    opacity: 0.82;
+}
+.textme-header-avatar:active {
+    opacity: 0.6;
 }
 .textme-header-avatar img {
     width: 40px;
     height: 40px;
     border-radius: 50%;
     object-fit: cover;
+    pointer-events: none;
 }
 .textme-avatar-placeholder {
     width: 40px;
@@ -195,6 +204,7 @@
     align-items: center;
     justify-content: center;
     color: var(--textme-text-muted);
+    pointer-events: none;
 }
 
 .textme-status-dot {
@@ -205,6 +215,7 @@
     height: 12px;
     border-radius: 50%;
     border: 2px solid var(--textme-header-bg);
+    pointer-events: none;
 }
 .textme-status-online  { background: #22c55e; }
 .textme-status-idle    { background: #f59e0b; }
@@ -360,6 +371,20 @@
     max-width: 200px;
     border-radius: 12px;
     cursor: pointer;
+}
+
+/* Previous cycles indicator (↻N) */
+.textme-cycles-indicator {
+    font-size: 10px;
+    color: var(--textme-accent, #7c3aed);
+    opacity: 0.7;
+    padding: 0 4px;
+    cursor: default;
+    user-select: none;
+    align-self: flex-start;
+}
+.textme-msg-user .textme-cycles-indicator {
+    align-self: flex-end;
 }
 
 /* ── Typing Indicator ── */
@@ -570,9 +595,9 @@
 .textme-schedule-cell:hover {
     transform: scale(1.3);
 }
-.textme-sched-online { background: #22c55e; }
-.textme-sched-idle { background: #f59e0b; }
-.textme-sched-dnd { background: #ef4444; }
+.textme-sched-online  { background: #22c55e; }
+.textme-sched-idle    { background: #f59e0b; }
+.textme-sched-dnd     { background: #ef4444; }
 .textme-sched-offline { background: #71717a; }
 
 .textme-schedule-legend {
