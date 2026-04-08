@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════════════════════
-   TextMe — Phone Messenger UI Styles v1.0
+   TextMe — Phone Messenger UI Styles v1.0.1
    License: AGPL-3.0
    ══════════════════════════════════════════════════════ */
 
@@ -41,7 +41,7 @@
     --textme-ctx-hover: #f0f0f0;
 }
 
-/* Color schemes — user message color */
+/* Color schemes */
 .textme-scheme-default  { --textme-msg-user-bg: #7c3aed; --textme-msg-user-text: #ffffff; --textme-accent: #7c3aed; }
 .textme-scheme-imessage { --textme-msg-user-bg: #007aff; --textme-msg-user-text: #ffffff; --textme-accent: #007aff; }
 .textme-scheme-whatsapp { --textme-msg-user-bg: #25d366; --textme-msg-user-text: #ffffff; --textme-accent: #25d366; }
@@ -55,7 +55,7 @@
     width: 56px;
     height: 56px;
     border-radius: 50%;
-    background: #7c3aed; /* fallback, accent not inherited from phone */
+    background: #7c3aed;
     color: #fff;
     display: flex;
     align-items: center;
@@ -336,7 +336,6 @@
     border-bottom-left-radius: 6px;
 }
 
-/* Grouped messages — tighter spacing, adjust radius */
 .textme-grouped {
     margin-top: -2px;
 }
@@ -421,17 +420,24 @@
     color: var(--textme-text);
     font-size: 14px;
     font-family: inherit;
-    resize: none;
+    resize: none !important;
     outline: none;
     line-height: 1.4;
     max-height: 100px;
-    overflow-y: hidden;
+    overflow-y: hidden !important;
     transition: border-color 0.15s;
     scrollbar-width: none;
     -ms-overflow-style: none;
+    -webkit-appearance: none;
+    appearance: none;
 }
 .textme-input::-webkit-scrollbar {
-    display: none;
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+}
+.textme-input::-webkit-resizer {
+    display: none !important;
 }
 .textme-input:focus {
     border-color: var(--textme-accent, #7c3aed);
