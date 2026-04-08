@@ -36,10 +36,6 @@
                 <textarea id="textme_sms_prompt" rows="8" class="text_pole"></textarea>
                 <button id="textme_sms_prompt_reset" class="menu_button">Reset to default</button>
 
-                <label>Selfie Prompt</label>
-                <textarea id="textme_selfie_prompt" rows="6" class="text_pole"></textarea>
-                <button id="textme_selfie_prompt_reset" class="menu_button">Reset to default</button>
-
                 <label>Summary Prompt</label>
                 <textarea id="textme_summary_prompt" rows="4" class="text_pole"></textarea>
                 <button id="textme_summary_prompt_reset" class="menu_button">Reset to default</button>
@@ -51,37 +47,6 @@
                 <label>Autonomous Prompt</label>
                 <textarea id="textme_autonomous_prompt" rows="4" class="text_pole"></textarea>
                 <button id="textme_autonomous_prompt_reset" class="menu_button">Reset to default</button>
-            </div>
-
-            <hr />
-
-            <!-- Selfie Generation -->
-            <h4>Selfie Generation</h4>
-            <div class="flex-container flexFlowColumn">
-                <label class="checkbox_label">
-                    <input id="textme_selfie_enabled" type="checkbox" />
-                    <span>Enable Selfie</span>
-                </label>
-
-                <label>Trigger Mode</label>
-                <select id="textme_selfie_trigger">
-                    <option value="auto">Auto (model decides)</option>
-                    <option value="manual">Manual (button)</option>
-                    <option value="slash">Slash command (/selfie)</option>
-                </select>
-
-                <label>Image API Endpoint</label>
-                <input id="textme_image_api_url" type="text" class="text_pole" placeholder="https://api.openai.com/v1/images/generations" />
-
-                <label>Image API Key</label>
-                <input id="textme_image_api_key" type="password" class="text_pole" placeholder="API key" />
-
-                <label>Image Model</label>
-                <input id="textme_image_model" type="text" class="text_pole" placeholder="e.g. dall-e-3" />
-
-                <label>Reference Image (for consistency)</label>
-                <input id="textme_reference_image" type="file" accept="image/*" />
-                <div id="textme_reference_preview"></div>
             </div>
 
             <hr />
