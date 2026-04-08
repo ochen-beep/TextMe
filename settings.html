@@ -1,7 +1,7 @@
 <div class="textme-settings">
     <div class="inline-drawer">
         <div class="inline-drawer-toggle inline-drawer-header">
-            <b>TextMe</b>
+            <b>📱 TextMe</b>
             <div class="inline-drawer-icon fa-solid fa-circle-chevron-down down"></div>
         </div>
         <div class="inline-drawer-content">
@@ -11,11 +11,8 @@
             <div class="flex-container flexFlowColumn">
                 <label class="checkbox_label">
                     <input id="textme_enabled" type="checkbox" />
-                    <span>Enable Phone</span>
+                    <span data-i18n="Enable Phone">Enable Phone</span>
                 </label>
-
-                <label>Connection Profile</label>
-                <div id="textme_connection_profile"></div>
 
                 <label>Max Response Tokens</label>
                 <input id="textme_max_tokens" type="number" min="50" max="2000" step="50" value="300" />
@@ -24,8 +21,10 @@
                 <input id="textme_context_messages" type="number" min="0" max="50" step="1" value="10" />
 
                 <label>Temperature</label>
-                <input id="textme_temperature" type="range" min="0" max="2" step="0.05" value="1.0" />
-                <span id="textme_temperature_value">1.00</span>
+                <div style="display:flex;align-items:center;gap:8px;">
+                    <input id="textme_temperature" type="range" min="0" max="2" step="0.05" value="1.0" style="flex:1;" />
+                    <span id="textme_temperature_value">1.00</span>
+                </div>
             </div>
 
             <hr />
@@ -70,7 +69,7 @@
                 <input id="textme_image_api_key" type="password" class="text_pole" placeholder="API key" />
 
                 <label>Image Model</label>
-                <input id="textme_image_model" type="text" class="text_pole" placeholder="e.g. gemini-2.0-flash" />
+                <input id="textme_image_model" type="text" class="text_pole" placeholder="e.g. dall-e-3" />
 
                 <label>Reference Image (for consistency)</label>
                 <input id="textme_reference_image" type="file" accept="image/*" />
@@ -108,7 +107,7 @@
 
                 <label class="checkbox_label">
                     <input id="textme_cooldown_escalation" type="checkbox" checked />
-                    <span>Cooldown Escalation (x2 each follow-up)</span>
+                    <span>Cooldown Escalation (×2 each follow-up)</span>
                 </label>
             </div>
 
@@ -132,8 +131,8 @@
 
                 <label>Phone Size</label>
                 <select id="textme_phone_size">
-                    <option value="normal">Normal (375x670)</option>
-                    <option value="large">Large (420x750)</option>
+                    <option value="normal">Normal (375×670)</option>
+                    <option value="large">Large (420×750)</option>
                     <option value="fullscreen">Fullscreen</option>
                 </select>
 

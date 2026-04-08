@@ -1,6 +1,526 @@
-/* TextMe — Phone Messenger UI */
-/* Will be populated in M4 (Phone UI milestone) */
+/* ══════════════════════════════════════════════════
+   TextMe — Phone Messenger UI Styles
+   License: AGPL-3.0
+   ══════════════════════════════════════════════════ */
+
+/* ── CSS Variables (themes & color schemes) ── */
+
+.textme-theme-dark {
+    --textme-bg: #0a0a0f;
+    --textme-surface: #1a1a2e;
+    --textme-surface2: #16213e;
+    --textme-text: #e4e4e7;
+    --textme-text-muted: #71717a;
+    --textme-border: #27272a;
+    --textme-input-bg: #1e1e2e;
+    --textme-header-bg: #111118;
+    --textme-statusbar-bg: #08080c;
+    --textme-typing-bg: #1e1e2e;
+    --textme-msg-char-bg: #2a2a3e;
+    --textme-msg-char-text: #e4e4e7;
+    --textme-shadow: rgba(0, 0, 0, 0.5);
+    --textme-ctx-bg: #1a1a2e;
+    --textme-ctx-hover: #2a2a3e;
+}
+
+.textme-theme-light {
+    --textme-bg: #f5f5f5;
+    --textme-surface: #ffffff;
+    --textme-surface2: #f0f0f0;
+    --textme-text: #18181b;
+    --textme-text-muted: #71717a;
+    --textme-border: #e4e4e7;
+    --textme-input-bg: #ffffff;
+    --textme-header-bg: #ffffff;
+    --textme-statusbar-bg: #fafafa;
+    --textme-typing-bg: #f0f0f0;
+    --textme-msg-char-bg: #e4e4e7;
+    --textme-msg-char-text: #18181b;
+    --textme-shadow: rgba(0, 0, 0, 0.15);
+    --textme-ctx-bg: #ffffff;
+    --textme-ctx-hover: #f0f0f0;
+}
+
+/* Color schemes — user message color */
+.textme-scheme-default  { --textme-msg-user-bg: #7c3aed; --textme-msg-user-text: #ffffff; --textme-accent: #7c3aed; }
+.textme-scheme-imessage { --textme-msg-user-bg: #007aff; --textme-msg-user-text: #ffffff; --textme-accent: #007aff; }
+.textme-scheme-whatsapp { --textme-msg-user-bg: #25d366; --textme-msg-user-text: #ffffff; --textme-accent: #25d366; }
+
+/* ── Floating Bubble ── */
+
+.textme-bubble {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--textme-accent, #7c3aed);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    z-index: 10000;
+    transition: transform 0.2s, box-shadow 0.2s;
+    user-select: none;
+}
+.textme-bubble:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
+}
+.textme-bubble:active {
+    transform: scale(0.95);
+}
+
+.textme-badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background: #ef4444;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    border-radius: 10px;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
+/* ── Phone Container ── */
 
 .textme-phone {
-    /* Placeholder */
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    background: var(--textme-bg);
+    border: 1px solid var(--textme-border);
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px var(--textme-shadow);
+    z-index: 10001;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 14px;
+    color: var(--textme-text);
+}
+
+/* Sizes */
+.textme-size-normal   { width: 375px; height: 670px; }
+.textme-size-large    { width: 420px; height: 750px; }
+.textme-size-fullscreen {
+    width: 100vw !important;
+    height: 100vh !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: auto !important;
+    border-radius: 0 !important;
+    border: none !important;
+}
+
+/* Positions */
+.textme-pos-right   { top: 50%; right: 20px; transform: translateY(-50%); }
+.textme-pos-left    { top: 50%; left: 20px; transform: translateY(-50%); }
+.textme-pos-center  { top: 50%; left: 50%; transform: translate(-50%, -50%); }
+.textme-pos-floating { top: 10%; right: 20px; }
+
+/* ── Status Bar ── */
+
+.textme-statusbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 20px;
+    background: var(--textme-statusbar-bg);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--textme-text);
+    user-select: none;
+    flex-shrink: 0;
+}
+.textme-statusbar-icons {
+    display: flex;
+    gap: 6px;
+    color: var(--textme-text-muted);
+}
+
+/* ── Header ── */
+
+.textme-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    background: var(--textme-header-bg);
+    border-bottom: 1px solid var(--textme-border);
+    flex-shrink: 0;
+}
+
+.textme-header-back {
+    cursor: pointer;
+    color: var(--textme-accent);
+    padding: 4px;
+    font-size: 16px;
+}
+
+.textme-header-avatar {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+}
+.textme-header-avatar img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.textme-avatar-placeholder {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--textme-surface2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--textme-text-muted);
+}
+
+.textme-status-dot {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid var(--textme-header-bg);
+}
+.textme-status-online  { background: #22c55e; }
+.textme-status-idle    { background: #f59e0b; }
+.textme-status-dnd     { background: #ef4444; }
+.textme-status-offline { background: #71717a; }
+
+.textme-header-info {
+    flex: 1;
+    min-width: 0;
+}
+.textme-header-name {
+    font-weight: 600;
+    font-size: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.textme-header-status {
+    font-size: 12px;
+    color: var(--textme-text-muted);
+}
+
+.textme-header-actions {
+    display: flex;
+    gap: 4px;
+}
+.textme-btn-icon {
+    background: none;
+    border: none;
+    color: var(--textme-text-muted);
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: background 0.15s, color 0.15s;
+}
+.textme-btn-icon:hover {
+    background: var(--textme-surface);
+    color: var(--textme-text);
+}
+
+/* ── Messages Area ── */
+
+.textme-messages {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    scroll-behavior: smooth;
+}
+.textme-messages::-webkit-scrollbar {
+    width: 4px;
+}
+.textme-messages::-webkit-scrollbar-track {
+    background: transparent;
+}
+.textme-messages::-webkit-scrollbar-thumb {
+    background: var(--textme-border);
+    border-radius: 2px;
+}
+
+.textme-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    color: var(--textme-text-muted);
+    font-size: 15px;
+    gap: 8px;
+    user-select: none;
+}
+.textme-empty-state i {
+    font-size: 48px;
+    opacity: 0.3;
+}
+
+/* Day separator */
+.textme-day-sep {
+    text-align: center;
+    color: var(--textme-text-muted);
+    font-size: 12px;
+    padding: 8px 0 4px;
+    user-select: none;
+}
+
+/* Message bubbles */
+.textme-msg {
+    display: flex;
+    max-width: 80%;
+    animation: textme-fadeIn 0.2s ease;
+}
+@keyframes textme-fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.textme-msg-user {
+    align-self: flex-end;
+}
+.textme-msg-char {
+    align-self: flex-start;
+}
+
+.textme-bubble-wrap {
+    display: flex;
+    flex-direction: column;
+}
+
+.textme-bubble-content {
+    padding: 8px 14px;
+    border-radius: 18px;
+    line-height: 1.45;
+    word-break: break-word;
+    white-space: pre-wrap;
+}
+
+.textme-msg-user .textme-bubble-content {
+    background: var(--textme-msg-user-bg);
+    color: var(--textme-msg-user-text);
+    border-bottom-right-radius: 6px;
+}
+.textme-msg-char .textme-bubble-content {
+    background: var(--textme-msg-char-bg);
+    color: var(--textme-msg-char-text);
+    border-bottom-left-radius: 6px;
+}
+
+/* Grouped messages — tighter spacing, adjust radius */
+.textme-grouped {
+    margin-top: -2px;
+}
+.textme-grouped.textme-msg-user .textme-bubble-content {
+    border-top-right-radius: 6px;
+}
+.textme-grouped.textme-msg-char .textme-bubble-content {
+    border-top-left-radius: 6px;
+}
+
+.textme-msg-time {
+    font-size: 10px;
+    color: var(--textme-text-muted);
+    margin-top: 2px;
+    padding: 0 4px;
+}
+.textme-msg-user .textme-msg-time {
+    text-align: right;
+}
+
+.textme-msg-image {
+    max-width: 200px;
+    border-radius: 12px;
+    cursor: pointer;
+}
+
+/* ── Typing Indicator ── */
+
+.textme-typing {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 16px;
+    color: var(--textme-text-muted);
+    font-size: 13px;
+    flex-shrink: 0;
+}
+.textme-typing-bubble {
+    display: flex;
+    gap: 4px;
+    padding: 8px 14px;
+    background: var(--textme-typing-bg);
+    border-radius: 18px;
+}
+.textme-typing-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--textme-text-muted);
+    animation: textme-typingBounce 1.2s infinite;
+}
+.textme-typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.textme-typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes textme-typingBounce {
+    0%, 60%, 100% { opacity: 0.3; transform: translateY(0); }
+    30% { opacity: 1; transform: translateY(-4px); }
+}
+
+.textme-typing-text {
+    font-style: italic;
+}
+
+/* ── Input Bar ── */
+
+.textme-input-bar {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    padding: 10px 14px;
+    background: var(--textme-header-bg);
+    border-top: 1px solid var(--textme-border);
+    flex-shrink: 0;
+}
+
+.textme-input {
+    flex: 1;
+    background: var(--textme-input-bg);
+    border: 1px solid var(--textme-border);
+    border-radius: 20px;
+    padding: 8px 14px;
+    color: var(--textme-text);
+    font-size: 14px;
+    font-family: inherit;
+    resize: none;
+    outline: none;
+    line-height: 1.4;
+    max-height: 100px;
+    overflow-y: auto;
+    transition: border-color 0.15s;
+}
+.textme-input:focus {
+    border-color: var(--textme-accent);
+}
+.textme-input::placeholder {
+    color: var(--textme-text-muted);
+}
+
+.textme-btn-send {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--textme-accent);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    flex-shrink: 0;
+    transition: background 0.15s, transform 0.1s;
+}
+.textme-btn-send:hover {
+    filter: brightness(1.15);
+}
+.textme-btn-send:active {
+    transform: scale(0.92);
+}
+.textme-btn-send:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* ── Context Menu ── */
+
+.textme-context-menu {
+    position: fixed;
+    background: var(--textme-ctx-bg, #1a1a2e);
+    border: 1px solid var(--textme-border, #27272a);
+    border-radius: 10px;
+    padding: 4px 0;
+    min-width: 160px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    z-index: 10010;
+    font-size: 13px;
+}
+.textme-ctx-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    cursor: pointer;
+    color: var(--textme-text, #e4e4e7);
+    transition: background 0.1s;
+}
+.textme-ctx-item:hover {
+    background: var(--textme-ctx-hover, #2a2a3e);
+}
+.textme-ctx-item i {
+    width: 16px;
+    text-align: center;
+    color: var(--textme-text-muted, #71717a);
+}
+.textme-ctx-danger {
+    color: #ef4444 !important;
+}
+.textme-ctx-danger i {
+    color: #ef4444 !important;
+}
+
+/* ── Settings Panel ── */
+
+.textme-settings h4 {
+    margin-top: 8px;
+    margin-bottom: 4px;
+}
+.textme-settings hr {
+    border-color: var(--SmartThemeBorderColor, #333);
+    margin: 8px 0;
+}
+
+/* ── Responsive / Mobile ── */
+
+@media (max-width: 500px) {
+    .textme-phone {
+        width: 100vw !important;
+        height: 100vh !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: auto !important;
+        border-radius: 0 !important;
+        border: none !important;
+        transform: none !important;
+    }
+    .textme-bubble {
+        bottom: 70px;
+        right: 12px;
+        width: 48px;
+        height: 48px;
+        font-size: 18px;
+    }
 }
