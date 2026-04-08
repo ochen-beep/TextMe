@@ -52,15 +52,22 @@
             <hr />
 
             <!-- Schedule & Status -->
-            <h4>Schedule & Status</h4>
+            <h4>Schedule &amp; Status</h4>
             <div class="flex-container flexFlowColumn">
                 <label class="checkbox_label">
                     <input id="textme_schedule_enabled" type="checkbox" />
                     <span>Enable Schedule</span>
                 </label>
-                <button id="textme_generate_schedule" class="menu_button">
-                    <i class="fa-solid fa-calendar-days"></i> Generate Schedule
-                </button>
+
+                <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                    <button id="textme_generate_schedule" class="menu_button">
+                        <i class="fa-solid fa-calendar-days"></i> Generate Schedule
+                    </button>
+                    <button id="textme_open_schedule_modal" class="menu_button">
+                        <i class="fa-solid fa-table"></i> Schedule &amp; Status
+                    </button>
+                </div>
+
                 <div id="textme_schedule_editor"></div>
             </div>
 
