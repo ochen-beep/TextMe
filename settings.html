@@ -100,44 +100,14 @@
 
                 <hr style="margin:10px 0 6px;" />
 
-                <!-- Autonomous prompts — explained -->
-                <div style="background:rgba(128,128,128,0.06);border-radius:6px;padding:8px 10px;margin-bottom:8px;">
-                    <p style="font-size:12px;font-weight:600;margin:0 0 4px;">
-                        ⚙️ How autonomous prompts work
-                    </p>
-                    <p style="font-size:11px;color:var(--SmartThemeQuoteColor,#888);margin:0;line-height:1.5;">
-                        When the character texts first, the system prompt is assembled as XML blocks:<br>
-                        <code style="font-size:10px;">&lt;role&gt;</code> SMS Prompt →
-                        <code style="font-size:10px;">&lt;character&gt;</code> card →
-                        <code style="font-size:10px;">&lt;world&gt;</code> lore →
-                        <code style="font-size:10px;">&lt;context&gt;</code> schedule/time →
-                        <code style="font-size:10px;">&lt;task&gt;</code> <b>Task Prompt</b><br><br>
-                        <b>Autonomous Prompt</b> — context &amp; behavioral rules for unprompted texting.
-                        Used as <b>fallback</b> if Task Prompt is empty.<br>
-                        <b>Autonomous Task Prompt</b> — short final instruction injected as
-                        <code style="font-size:10px;">&lt;task&gt;</code> (last = highest model attention).
-                        <b>Takes priority</b> over Autonomous Prompt when both are set.
-                    </p>
-                </div>
-
                 <label>
                     Autonomous Prompt
                     <span style="font-size:11px;font-weight:400;color:var(--SmartThemeQuoteColor,#888);margin-left:6px;">
-                        context &amp; style for unprompted messages — fallback if Task Prompt is empty
+                        injected as <code style="font-size:10px;">&lt;task&gt;</code> when the character texts first
                     </span>
                 </label>
                 <textarea id="textme_autonomous_prompt" rows="6" class="text_pole"></textarea>
                 <button id="textme_autonomous_prompt_reset" class="menu_button">Reset to default</button>
-
-                <label style="margin-top:10px;">
-                    Autonomous Task Prompt
-                    <span style="font-size:11px;font-weight:400;color:var(--SmartThemeQuoteColor,#888);margin-left:6px;">
-                        injected as <code style="font-size:10px;">&lt;task&gt;</code> — final instruction before the model writes.
-                        <b>Takes priority</b> when set.
-                    </span>
-                </label>
-                <textarea id="textme_autonomous_task_prompt" rows="3" class="text_pole"></textarea>
-                <button id="textme_autonomous_task_prompt_reset" class="menu_button">Reset to default</button>
             </div>
 
             <hr />
