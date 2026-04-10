@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════════════════════
-   TextMe — Phone Messenger UI Styles v1.0.2
+   TextMe — Phone Messenger UI Styles v1.0.3
    License: AGPL-3.0
    ══════════════════════════════════════════════════════ */
 
@@ -762,11 +762,13 @@
 @media (max-width: 500px) {
     .textme-phone {
         width: 100vw !important;
-        /* FIX: use dynamic viewport height so phone fills only the *visible*
-           area (below browser address bar, above nav bar) on Android.
-           Falls back to 100vh on browsers that don't support dvh. */
+        /* FIX: correct fallback order — 100vh first, 100dvh second.
+           CSS last-rule-wins: on browsers that support dvh the second
+           declaration wins and gives the true visible-area height
+           (excludes Android browser chrome). On older browsers only
+           100vh is applied (safe fallback). */
+        height: 100vh !important;
         height: 100dvh !important;
-        height: 100vh !important; /* fallback first so dvh overrides on support */
         top: 0 !important;
         left: 0 !important;
         right: auto !important;
@@ -775,12 +777,17 @@
         transform: none !important;
     }
     .textme-bubble {
-        /* Default position for first run (no saved position in localStorage).
-           When a saved position exists, drag.js applyBubbleSavedPos() takes over
-           and positions the bubble via left/top inline styles using visualViewport
-           + BUBBLE_BOTTOM_MARGIN (100 px) to stay above Android browser chrome.
-           The bottom/right values here are the CSS fallback only. */
-        bottom: 90px;
+        /* FIX: Increased bottom offset for Android (Yandex Browser).
+           On Android the visible area is reduced by:
+             - browser address/tab bar  ~56 px
+             - SillyTavern bottom nav   ~60 px
+           Total ~116 px → use 140 px to give comfortable clearance.
+           env(safe-area-inset-bottom) adds extra padding on notched
+           / gesture-nav phones that expose the CSS env variable.
+           The plain 140px value is the safe fallback for Termux/Yandex
+           where viewport-fit=cover is not set and env() returns 0. */
+        bottom: 140px;
+        bottom: calc(140px + env(safe-area-inset-bottom, 0px));
         right: 12px;
         width: 48px;
         height: 48px;
