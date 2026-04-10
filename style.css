@@ -387,6 +387,37 @@
     align-self: flex-end;
 }
 
+/* Read receipts — lives inside .textme-bubble-wrap (flex-column), always right-aligned */
+.textme-read-receipt {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 3px;
+    font-size: 10px;
+    color: var(--textme-text-muted);
+    padding: 1px 4px 0;
+    animation: textme-receipt-fade 0.3s ease forwards;
+}
+.textme-receipt-icon {
+    font-size: 9px;
+    line-height: 1;
+}
+.textme-receipt-text {
+    line-height: 1;
+}
+/* Delivered: muted tick */
+.textme-receipt-delivered .textme-receipt-icon {
+    color: var(--textme-text-muted);
+}
+/* Read: accent double tick */
+.textme-receipt-read .textme-receipt-icon {
+    color: var(--textme-accent, #7c3aed);
+}
+@keyframes textme-receipt-fade {
+    from { opacity: 0; transform: translateY(-2px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
 /* ── Typing Indicator ── */
 
 .textme-typing {
@@ -614,6 +645,103 @@
     border-radius: 50%;
     margin-right: 3px;
     vertical-align: middle;
+}
+
+/* ── Emoji Picker ── */
+
+.textme-emoji-picker {
+    background: var(--textme-surface);
+    border: 1px solid var(--textme-border);
+    border-radius: 12px;
+    box-shadow: 0 -4px 24px var(--textme-shadow);
+    z-index: 10020;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-height: 260px;
+}
+
+.textme-emoji-search {
+    width: 100%;
+    background: var(--textme-input-bg);
+    border: 1px solid var(--textme-border);
+    border-radius: 8px;
+    padding: 5px 10px;
+    color: var(--textme-text);
+    font-size: 13px;
+    outline: none;
+    box-sizing: border-box;
+}
+.textme-emoji-search:focus {
+    border-color: var(--textme-accent, #7c3aed);
+}
+
+.textme-emoji-tabs {
+    display: flex;
+    gap: 2px;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+.textme-emoji-tabs::-webkit-scrollbar { display: none; }
+
+.textme-emoji-tab {
+    background: none;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    padding: 3px 7px;
+    cursor: pointer;
+    font-size: 16px;
+    flex-shrink: 0;
+    transition: background 0.1s;
+}
+.textme-emoji-tab:hover {
+    background: var(--textme-surface2);
+}
+.textme-emoji-tab.active {
+    border-color: var(--textme-accent, #7c3aed);
+    background: var(--textme-surface2);
+}
+
+.textme-emoji-grid {
+    overflow-y: auto;
+    flex: 1;
+    scrollbar-width: thin;
+    scrollbar-color: var(--textme-border) transparent;
+}
+
+.textme-emoji-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px;
+}
+
+.textme-emoji-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 6px;
+    line-height: 1;
+    transition: background 0.1s, transform 0.1s;
+}
+.textme-emoji-btn:hover {
+    background: var(--textme-surface2);
+    transform: scale(1.2);
+}
+
+.textme-emoji-empty {
+    padding: 16px;
+    text-align: center;
+    color: var(--textme-text-muted);
+    font-size: 13px;
+}
+
+/* Emoji button in input bar */
+.textme-btn-emoji {
+    font-size: 18px;
+    flex-shrink: 0;
 }
 
 /* ── Settings Panel ── */
