@@ -50,6 +50,8 @@
 
 .textme-bubble {
     position: fixed;
+    /* FIX: raise above any ST overlays that use z-index ~10000 */
+    z-index: 99999;
     bottom: 80px;
     right: 20px;
     width: 56px;
@@ -63,7 +65,6 @@
     font-size: 22px;
     cursor: pointer;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
-    z-index: 10000;
     transition: transform 0.2s, box-shadow 0.2s;
     user-select: none;
     touch-action: none;
@@ -760,7 +761,11 @@
 @media (max-width: 500px) {
     .textme-phone {
         width: 100vw !important;
-        height: 100vh !important;
+        /* FIX: use dynamic viewport height so phone fills only the *visible*
+           area (below browser address bar, above nav bar) on Android.
+           Falls back to 100vh on browsers that don't support dvh. */
+        height: 100dvh !important;
+        height: 100vh !important; /* fallback first so dvh overrides on support */
         top: 0 !important;
         left: 0 !important;
         right: auto !important;
@@ -769,7 +774,12 @@
         transform: none !important;
     }
     .textme-bubble {
-        bottom: 70px;
+        /* FIX: bottom:70px placed the bubble behind the Android browser
+           navigation bar (~56px) + system UI (~48px) on Termux/Firefox/Chrome.
+           Use env(safe-area-inset-bottom) to account for system UI safely.
+           The 90px base ensures clearance even when env() returns 0
+           (older browsers or devices without gesture navigation). */
+        bottom: calc(90px + env(safe-area-inset-bottom, 0px));
         right: 12px;
         width: 48px;
         height: 48px;
