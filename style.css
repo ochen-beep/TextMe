@@ -775,16 +775,12 @@
         transform: none !important;
     }
     .textme-bubble {
-        /* FIX: raised from 90px → 150px.
-           Android browser (Firefox/Chrome) occupies:
-             - system gesture bar / nav buttons: ~48px
-             - browser bottom bar (address bar): ~56px
-             - total: ~104px
-           env(safe-area-inset-bottom) only works when the host page
-           includes viewport-fit=cover — SillyTavern does NOT include it,
-           so env() returns 0. The 150px base gives adequate clearance
-           without relying on env(). */
-        bottom: calc(150px + env(safe-area-inset-bottom, 0px));
+        /* Default position for first run (no saved position in localStorage).
+           When a saved position exists, drag.js applyBubbleSavedPos() takes over
+           and positions the bubble via left/top inline styles using visualViewport
+           + BUBBLE_BOTTOM_MARGIN (100 px) to stay above Android browser chrome.
+           The bottom/right values here are the CSS fallback only. */
+        bottom: 90px;
         right: 12px;
         width: 48px;
         height: 48px;
