@@ -1,7 +1,7 @@
 <div class="textme-settings">
     <div class="inline-drawer">
         <div class="inline-drawer-toggle inline-drawer-header">
-            <b>📱 TextMe v1.0</b>
+            <b>📱 TextMe v1.0.3</b>
             <div class="inline-drawer-icon fa-solid fa-circle-chevron-down down"></div>
         </div>
         <div class="inline-drawer-content">
@@ -13,6 +13,15 @@
                     <input id="textme_enabled" type="checkbox" />
                     <span>Enable Phone</span>
                 </label>
+
+                <!-- Show Phone button — mobile fallback for when bubble is hidden behind browser chrome -->
+                <button id="textme_show_phone" class="menu_button" style="margin-top:6px;">
+                    <i class="fa-solid fa-mobile-screen-button"></i> Show Phone / Open
+                </button>
+                <p style="font-size:11px;color:var(--SmartThemeQuoteColor,#888);margin:2px 0 8px;">
+                    On mobile: if the floating bubble is hidden behind the browser bar or navigation,
+                    use this button to open the phone directly.
+                </p>
 
                 <label>Max Response Tokens</label>
                 <input id="textme_max_tokens" type="number" min="50" max="2000" step="50" value="300" class="text_pole" />
