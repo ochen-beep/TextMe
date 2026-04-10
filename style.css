@@ -67,7 +67,8 @@
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
     transition: transform 0.2s, box-shadow 0.2s;
     user-select: none;
-    touch-action: none;
+    touch-action: manipulation; /* FIX: remove 300ms tap delay on Android */
+    pointer-events: auto;       /* FIX: explicit — prevent inherited pointer-events:none */
 }
 .textme-bubble:hover {
     transform: scale(1.1);
@@ -774,12 +775,16 @@
         transform: none !important;
     }
     .textme-bubble {
-        /* FIX: bottom:70px placed the bubble behind the Android browser
-           navigation bar (~56px) + system UI (~48px) on Termux/Firefox/Chrome.
-           Use env(safe-area-inset-bottom) to account for system UI safely.
-           The 90px base ensures clearance even when env() returns 0
-           (older browsers or devices without gesture navigation). */
-        bottom: calc(90px + env(safe-area-inset-bottom, 0px));
+        /* FIX: raised from 90px → 150px.
+           Android browser (Firefox/Chrome) occupies:
+             - system gesture bar / nav buttons: ~48px
+             - browser bottom bar (address bar): ~56px
+             - total: ~104px
+           env(safe-area-inset-bottom) only works when the host page
+           includes viewport-fit=cover — SillyTavern does NOT include it,
+           so env() returns 0. The 150px base gives adequate clearance
+           without relying on env(). */
+        bottom: calc(150px + env(safe-area-inset-bottom, 0px));
         right: 12px;
         width: 48px;
         height: 48px;
