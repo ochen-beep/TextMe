@@ -14,7 +14,21 @@ import { registerCommands } from './lib/commands.js';
 import { startAutonomousTimer } from './lib/autonomous.js';
 import { log } from './lib/logger.js';
 
-const extensionFolderPath = new URL('.', import.meta.url).pathname.replace(/\/$/, '');
+/**
+ * Resolve the extension's folder path from import.meta.url.
+ * Falls back to the conventional ST third-party path if URL parsing fails
+ * (edge-case environments: unusual Termux setups, some Android WebViews).
+ * On a normal Windows/Linux/macOS install the try-branch always succeeds.
+ * @returns {string} Absolute URL pathname, no trailing slash
+ */
+function getExtensionFolderPath() {
+    try {
+        return new URL('.', import.meta.url).pathname.replace(/\/$/, '');
+    } catch {
+        // Fallback: ST always mounts third-party extensions here
+        return '/scripts/extensions/third-party/TextMe';
+    }
+}
 
 /**
  * Main initialization — runs when ST is ready.
@@ -31,15 +45,31 @@ async function init() {
     }
 
     // Inject settings panel HTML
+    // extensionFolderPath is resolved here (inside init) so that any URL
+    // parsing error is caught cleanly and falls back gracefully.
+    const extensionFolderPath = getExtensionFolderPath();
+    let settingsLoaded = false;
     try {
         const settingsHtml = await $.get(`${extensionFolderPath}/settings.html`);
         $('#extensions_settings2').append(settingsHtml);
+        settingsLoaded = true;
     } catch (e) {
         log.error('Failed to load settings HTML:', e);
+        // Make the failure visible to the user so they know something went wrong
+        // and are not left with a blank, non-functional settings panel.
+        toastr.error(
+            'TextMe: could not load settings panel. Try reloading the page or reinstalling the extension.',
+            'TextMe',
+            { timeOut: 8000 },
+        );
     }
 
-    // Bind UI controls to settings
-    loadSettingsUI();
+    // Bind UI controls to settings only if the HTML was actually inserted.
+    // Calling loadSettingsUI() against an empty DOM would silently skip all
+    // bindings, leaving the user unable to enable the extension from the UI.
+    if (settingsLoaded) {
+        loadSettingsUI();
+    }
 
     // Register slash commands
     registerCommands();
