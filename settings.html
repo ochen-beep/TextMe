@@ -17,8 +17,16 @@
                 <label>Max Response Tokens</label>
                 <input id="textme_max_tokens" type="number" min="50" max="2000" step="50" value="300" class="text_pole" />
 
-                <label>Context Messages (from RP chat)</label>
+                <label>SMS History (messages in conversation, 0 = all)</label>
+                <input id="textme_sms_history" type="number" min="0" max="500" step="5" value="50" class="text_pole" />
+
+                <label>RP Context Messages (injected into system prompt, 0 = disabled)</label>
                 <input id="textme_context_messages" type="number" min="0" max="50" step="1" value="10" class="text_pole" />
+
+                <label class="checkbox_label" style="margin-top:4px;">
+                    <input id="textme_send_on_enter" type="checkbox" checked />
+                    <span>Send on Enter (Shift+Enter = newline)</span>
+                </label>
             </div>
 
             <hr />
@@ -26,6 +34,32 @@
             <!-- Prompts -->
             <h4>Prompts</h4>
             <div class="flex-container flexFlowColumn">
+
+                <!-- Preset controls -->
+                <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:6px 8px;
+                            background:rgba(128,128,128,0.08);border-radius:6px;margin-bottom:6px;">
+                    <span style="font-size:12px;font-weight:600;white-space:nowrap;">Preset:</span>
+                    <select id="textme_preset_select" class="text_pole"
+                            style="flex:1;min-width:120px;font-size:12px;height:28px;padding:2px 6px;">
+                        <option value="">— Custom (unsaved) —</option>
+                    </select>
+                    <button id="textme_preset_save"      class="menu_button" style="font-size:11px;padding:3px 10px;" title="Save current prompts as a preset">
+                        <i class="fa-solid fa-floppy-disk"></i> Save
+                    </button>
+                    <button id="textme_preset_delete"    class="menu_button" style="font-size:11px;padding:3px 10px;" title="Delete selected preset">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                    <button id="textme_preset_export"    class="menu_button" style="font-size:11px;padding:3px 10px;" title="Export all presets as JSON file">
+                        <i class="fa-solid fa-file-export"></i>
+                    </button>
+                    <button id="textme_preset_import"    class="menu_button" style="font-size:11px;padding:3px 10px;" title="Import presets from JSON file">
+                        <i class="fa-solid fa-file-import"></i>
+                    </button>
+                    <button id="textme_preset_reset_all" class="menu_button" style="font-size:11px;padding:3px 10px;" title="Reset ALL prompts to built-in defaults">
+                        <i class="fa-solid fa-rotate-left"></i> Reset all
+                    </button>
+                </div>
+
                 <label>SMS System Prompt</label>
                 <textarea id="textme_sms_prompt" rows="8" class="text_pole"></textarea>
                 <button id="textme_sms_prompt_reset" class="menu_button">Reset to default</button>
@@ -41,11 +75,89 @@
                 <label>Autonomous Prompt</label>
                 <textarea id="textme_autonomous_prompt" rows="4" class="text_pole"></textarea>
                 <button id="textme_autonomous_prompt_reset" class="menu_button">Reset to default</button>
+
+                <label style="margin-top:6px;">Autonomous Task Prompt
+                    <span style="font-size:11px;font-weight:400;color:var(--SmartThemeQuoteColor,#888);margin-left:6px;">
+                        injected as &lt;task&gt; — the final instruction before the model writes
+                    </span>
+                </label>
+                <textarea id="textme_autonomous_task_prompt" rows="3" class="text_pole"></textarea>
+                <button id="textme_autonomous_task_prompt_reset" class="menu_button">Reset to default</button>
             </div>
 
             <hr />
 
-            <!-- Schedule & Status -->
+            <!-- World Info -->
+            <h4>World Info / Lorebook</h4>
+            <div class="flex-container flexFlowColumn">
+                <p style="font-size:12px;color:var(--SmartThemeQuoteColor,#888);margin:0 0 6px;">
+                    Controls which messages are scanned to activate lorebook entries.
+                </p>
+
+                <label>Scan Source</label>
+                <select id="textme_wi_scan_source" class="text_pole">
+                    <option value="sms">SMS only — triggers on phone conversation</option>
+                    <option value="rp">RP chat only — triggers on main story events</option>
+                    <option value="both">Both — SMS + RP chat combined</option>
+                </select>
+
+                <label>Scan Depth (messages, 0 = all)</label>
+                <input id="textme_wi_scan_depth" type="number" min="0" max="500" step="5" value="50" class="text_pole" />
+                <p style="font-size:11px;color:var(--SmartThemeQuoteColor,#888);margin:2px 0 0;">
+                    How many recent messages to check against lorebook keys. 0 scans the entire history.
+                </p>
+            </div>
+
+            <hr />
+
+            <!-- Response Delay & Read Receipts -->
+            <h4>Response Delay &amp; Read Receipts</h4>
+            <div class="flex-container flexFlowColumn">
+                <p style="font-size:12px;color:var(--SmartThemeQuoteColor,#888);margin:0 0 8px;">
+                    How long the character waits before replying, based on their current status.<br>
+                    The typing indicator stays visible during the delay.
+                </p>
+
+                <!-- Online -->
+                <label style="font-size:12px;font-weight:600;">🟢 Online — delay (sec)</label>
+                <div style="display:flex;gap:8px;align-items:center;">
+                    <span style="font-size:11px;min-width:28px;">Min</span>
+                    <input id="textme_delay_online_min" type="number" min="0" max="300" step="1" value="0" class="text_pole" style="width:70px;" />
+                    <span style="font-size:11px;min-width:28px;">Max</span>
+                    <input id="textme_delay_online_max" type="number" min="0" max="300" step="1" value="3"  class="text_pole" style="width:70px;" />
+                </div>
+
+                <!-- Idle -->
+                <label style="font-size:12px;font-weight:600;margin-top:6px;">🟡 Idle — delay (sec)</label>
+                <div style="display:flex;gap:8px;align-items:center;">
+                    <span style="font-size:11px;min-width:28px;">Min</span>
+                    <input id="textme_delay_idle_min" type="number" min="0" max="3600" step="5" value="30"  class="text_pole" style="width:70px;" />
+                    <span style="font-size:11px;min-width:28px;">Max</span>
+                    <input id="textme_delay_idle_max" type="number" min="0" max="3600" step="5" value="120" class="text_pole" style="width:70px;" />
+                </div>
+
+                <!-- DND -->
+                <label style="font-size:12px;font-weight:600;margin-top:6px;">🔴 DND — delay (sec)</label>
+                <div style="display:flex;gap:8px;align-items:center;">
+                    <span style="font-size:11px;min-width:28px;">Min</span>
+                    <input id="textme_delay_dnd_min" type="number" min="0" max="3600" step="5" value="5"   class="text_pole" style="width:70px;" />
+                    <span style="font-size:11px;min-width:28px;">Max</span>
+                    <input id="textme_delay_dnd_max" type="number" min="0" max="3600" step="5" value="20"  class="text_pole" style="width:70px;" />
+                </div>
+
+                <hr style="margin:10px 0;" />
+
+                <!-- Read Receipts -->
+                <label class="checkbox_label">
+                    <input id="textme_read_receipts" type="checkbox" checked />
+                    <span>Show Read Receipts (✓ Delivered → ✓✓ Read)</span>
+                </label>
+                <p style="font-size:11px;color:var(--SmartThemeQuoteColor,#888);margin:2px 0 0;">
+                    "Delivered" appears instantly. "Read" appears when the response delay ends and the character starts typing.
+                </p>
+            </div>
+
+            <hr />
             <h4>Schedule &amp; Status</h4>
             <div class="flex-container flexFlowColumn">
                 <label class="checkbox_label">
@@ -59,6 +171,12 @@
                     </button>
                     <button id="textme_open_schedule_modal" class="menu_button">
                         <i class="fa-solid fa-table"></i> Schedule &amp; Status
+                    </button>
+                    <button id="textme_export_schedule" class="menu_button">
+                        <i class="fa-solid fa-file-export"></i> Export JSON
+                    </button>
+                    <button id="textme_import_schedule" class="menu_button">
+                        <i class="fa-solid fa-file-import"></i> Import JSON
                     </button>
                 </div>
 
@@ -75,21 +193,55 @@
                     <span>Enable Autonomous Messages</span>
                 </label>
 
-                <label>Inactivity Threshold (minutes)</label>
-                <input id="textme_inactivity_threshold" type="number" min="1" max="60" step="1" value="5" class="text_pole" />
+                <p style="font-size:12px;color:var(--SmartThemeQuoteColor,#888);margin:4px 0 6px;">
+                    How long the character waits before texting first, based on their status.
+                </p>
+
+                <!-- Online threshold -->
+                <label style="font-size:12px;font-weight:600;">🟢 Online — inactivity threshold (min)</label>
+                <input id="textme_autonomous_threshold_online" type="number" min="1" max="1440" step="1" value="5" class="text_pole" />
+
+                <!-- Idle threshold -->
+                <label style="font-size:12px;font-weight:600;margin-top:4px;">🟡 Idle — inactivity threshold (min)</label>
+                <input id="textme_autonomous_threshold_idle" type="number" min="1" max="1440" step="5" value="15" class="text_pole" />
+
+                <!-- DND threshold -->
+                <label style="font-size:12px;font-weight:600;margin-top:4px;">🔴 DND — inactivity threshold (min)</label>
+                <input id="textme_autonomous_threshold_dnd" type="number" min="1" max="1440" step="5" value="30" class="text_pole" />
+
+                <hr style="margin:8px 0;" />
 
                 <label>Max Follow-ups (without user reply)</label>
                 <input id="textme_max_followups" type="number" min="1" max="10" step="1" value="3" class="text_pole" />
 
-                <label class="checkbox_label">
+                <label class="checkbox_label" style="margin-top:4px;">
                     <input id="textme_cooldown_escalation" type="checkbox" checked />
                     <span>Cooldown Escalation (×2 each follow-up)</span>
                 </label>
+
+                <label style="margin-top:4px;">Cooldown Cap (max threshold, minutes)</label>
+                <input id="textme_cooldown_cap" type="number" min="5" max="1440" step="5" value="120" class="text_pole" />
+                <p style="font-size:11px;color:var(--SmartThemeQuoteColor,#888);margin:2px 0 0;">
+                    Escalation stops growing once the threshold reaches this value.
+                </p>
             </div>
 
             <hr />
 
-            <!-- Appearance -->
+            <!-- Game Time -->
+            <h4>Game Time</h4>
+            <div class="flex-container flexFlowColumn">
+                <p style="font-size:12px;color:var(--SmartThemeQuoteColor,#888);margin:0 0 6px;">
+                    Custom in-story time for the character's clock.<br>
+                    When enabled, the AI will see the game time instead of your real clock.
+                </p>
+                <button id="textme_open_time_editor" class="menu_button">
+                    <i class="fa-solid fa-clock"></i> Configure Game Time
+                </button>
+                <div id="textme_time_status" style="font-size:12px;color:var(--SmartThemeQuoteColor,#888);margin-top:4px;"></div>
+            </div>
+
+            <hr />
             <h4>Appearance</h4>
             <div class="flex-container flexFlowColumn">
                 <label>Theme</label>
@@ -124,6 +276,20 @@
                     <input id="textme_sound_effects" type="checkbox" checked />
                     <span>Sound Effects</span>
                 </label>
+
+                <label>Sound Volume</label>
+                <div style="display:flex;align-items:center;gap:8px;">
+                    <input id="textme_sound_volume" type="range" min="0" max="100" step="5" value="70" style="flex:1;" />
+                    <span id="textme_sound_volume_value">70%</span>
+                </div>
+
+                <label class="checkbox_label">
+                    <input id="textme_browser_notifications" type="checkbox" />
+                    <span>Browser Notifications (when tab is unfocused)</span>
+                </label>
+                <button id="textme_request_notif_permission" class="menu_button" style="margin-top:2px;">
+                    <i class="fa-solid fa-bell"></i> Request Permission
+                </button>
 
                 <label class="checkbox_label">
                     <input id="textme_show_timestamps" type="checkbox" checked />
