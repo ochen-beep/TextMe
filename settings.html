@@ -27,6 +27,23 @@
                     <input id="textme_send_on_enter" type="checkbox" checked />
                     <span>Send on Enter (Shift+Enter = newline)</span>
                 </label>
+
+                <!-- Connection Profile (issue #13) -->
+                <div class="textme-profile-row" style="margin-top:10px;">
+                    <label style="margin-bottom:4px;">
+                        Connection Profile
+                        <span style="font-size:11px;font-weight:400;color:var(--SmartThemeQuoteColor,#888);margin-left:6px;">
+                            select which API profile TextMe uses for generation
+                        </span>
+                    </label>
+                    <select id="textme_connection_profile" class="text_pole">
+                        <option value="">Select a Connection Profile</option>
+                    </select>
+                    <p style="font-size:11px;color:var(--SmartThemeQuoteColor,#888);margin:3px 0 0;">
+                        Leave blank to use ST's currently active connection.
+                        Requires the <b>Connection Profiles</b> extension to be enabled.
+                    </p>
+                </div>
             </div>
 
             <hr />
