@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════════════════════
-   TextMe — Phone Messenger UI Styles v1.0.3
+   TextMe — Phone Messenger UI Styles v0.0.2-alpha
    License: AGPL-3.0
    ══════════════════════════════════════════════════════ */
 
@@ -759,33 +759,78 @@
 
 /* ── Responsive / Mobile ── */
 
+/*
+ * MOBILE LAYOUT — Visual Viewport API approach
+ *
+ * PROBLEM: Chrome 108+ on Android (including Yandex Browser) changed its
+ * viewport resize behavior. When the virtual keyboard opens:
+ *   - The Layout Viewport does NOT shrink (old: it did shrink).
+ *   - Only the Visual Viewport shrinks.
+ *   - `position: fixed` elements are anchored to the Layout Viewport.
+ *   → Input bar slides under the keyboard AND under browser chrome.
+ *
+ * SOLUTION: JS (phone-ui.js → setupVisualViewport) listens to
+ * window.visualViewport "resize" and "scroll" events and writes two
+ * CSS custom properties onto :root:
+ *
+ *   --textme-vvh     = visualViewport.height  (px)
+ *   --textme-vvh-top = visualViewport.offsetTop (px)
+ *
+ * These are consumed here via var() with dvh/vh fallbacks for the rare
+ * case where JS hasn't run yet (old browser, slow init).
+ *
+ * DESKTOP SAFETY: The JS handler bails out when window.innerWidth > 500,
+ * so the custom properties are never written on desktop and this entire
+ * media block never applies there. Zero risk of breaking desktop layout.
+ *
+ * TERMUX SAFETY: Termux browsers are Chromium-based and support both
+ * visualViewport API (Chrome 61+) and dvh units. Same code path as
+ * Yandex Browser on Android.
+ */
 @media (max-width: 500px) {
     .textme-phone {
         width: 100vw !important;
-        /* FIX: correct fallback order — 100vh first, 100dvh second.
-           CSS last-rule-wins: on browsers that support dvh the second
-           declaration wins and gives the true visible-area height
-           (excludes Android browser chrome). On older browsers only
-           100vh is applied (safe fallback). */
+
+        /*
+         * Height: JS sets --textme-vvh = visualViewport.height.
+         * This equals the truly visible area: no keyboard, no browser chrome.
+         * Fallback chain (last-rule-wins):
+         *   1. 100vh  — broadest compat (does NOT account for browser chrome)
+         *   2. 100dvh — modern browsers (accounts for collapsible browser chrome)
+         *   3. var(--textme-vvh, 100dvh) — JS-driven; wins when JS has run.
+         * The var() declaration must come last so it overrides the others.
+         */
         height: 100vh !important;
         height: 100dvh !important;
-        top: 0 !important;
+        height: var(--textme-vvh, 100dvh) !important;
+
+        /*
+         * Top: JS sets --textme-vvh-top = visualViewport.offsetTop.
+         * When Android scrolls the Layout Viewport to reveal the focused
+         * input, offsetTop becomes non-zero. We must shift the phone element
+         * by the same amount so it stays aligned with the visual viewport.
+         * Fallback: 0px (correct when JS hasn't run or keyboard is closed).
+         */
+        top: var(--textme-vvh-top, 0px) !important;
+
         left: 0 !important;
         right: auto !important;
         border-radius: 0 !important;
         border: none !important;
         transform: none !important;
     }
+
     .textme-bubble {
-        /* FIX: Increased bottom offset for Android (Yandex Browser).
-           On Android the visible area is reduced by:
-             - browser address/tab bar  ~56 px
-             - SillyTavern bottom nav   ~60 px
-           Total ~116 px → use 140 px to give comfortable clearance.
-           env(safe-area-inset-bottom) adds extra padding on notched
-           / gesture-nav phones that expose the CSS env variable.
-           The plain 140px value is the safe fallback for Termux/Yandex
-           where viewport-fit=cover is not set and env() returns 0. */
+        /*
+         * FIX: Increased bottom offset for Android (Yandex Browser).
+         * On Android the visible area is reduced by:
+         *   - browser address/tab bar  ~56 px
+         *   - SillyTavern bottom nav   ~60 px
+         * Total ~116 px → use 140 px to give comfortable clearance.
+         * env(safe-area-inset-bottom) adds extra padding on notched /
+         * gesture-nav phones. The plain 140px value is the safe fallback
+         * for Termux/Yandex where viewport-fit=cover is not set.
+         */
         bottom: 140px;
         bottom: calc(140px + env(safe-area-inset-bottom, 0px));
         right: 12px;
@@ -793,6 +838,7 @@
         height: 48px;
         font-size: 18px;
     }
+
     .textme-resize-handle {
         display: none;
     }
