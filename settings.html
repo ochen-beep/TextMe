@@ -190,6 +190,24 @@
                     <span>Enable Schedule</span>
                 </label>
 
+                <label class="checkbox_label" style="margin-top:4px;">
+                    <input id="textme_schedule_include_context" type="checkbox" />
+                    <span>Include RP context when generating schedule</span>
+                </label>
+                <p style="font-size:11px;color:var(--SmartThemeQuoteColor,#888);margin:1px 0 4px 22px;">
+                    Injects the last N RP chat messages into the schedule generation prompt
+                    (uses the "RP Context Messages" setting above).
+                </p>
+
+                <label class="checkbox_label">
+                    <input id="textme_schedule_include_wi" type="checkbox" />
+                    <span>Include lorebook / World Info when generating schedule</span>
+                </label>
+                <p style="font-size:11px;color:var(--SmartThemeQuoteColor,#888);margin:1px 0 6px 22px;">
+                    Injects active lorebook entries (scanned from SMS history) so the AI
+                    can factor in world-specific facts when generating the weekly schedule.
+                </p>
+
                 <div style="display:flex;gap:8px;flex-wrap:wrap;">
                     <button id="textme_generate_schedule" class="menu_button">
                         <i class="fa-solid fa-calendar-days"></i> Generate Schedule
