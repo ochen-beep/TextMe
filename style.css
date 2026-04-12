@@ -394,25 +394,36 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    gap: 3px;
-    font-size: 10px;
-    color: var(--textme-text-muted);
-    padding: 1px 4px 0;
+    gap: 2px;
+    margin-top: 1px;
+    padding: 0 4px 2px;
     animation: textme-receipt-fade 0.3s ease forwards;
 }
-.textme-receipt-icon {
-    font-size: 9px;
+/* Two-tick icon via stacked Unicode — matches iMessage/WhatsApp style */
+.textme-receipt-ticks {
+    display: inline-flex;
+    align-items: center;
+    letter-spacing: -3px;   /* overlap the two ticks */
+    font-size: 11px;
     line-height: 1;
+    font-weight: 600;
 }
-.textme-receipt-text {
+.textme-receipt-ticks::before,
+.textme-receipt-ticks::after {
+    content: '✓';
+}
+.textme-receipt-label {
+    font-size: 10px;
+    color: var(--textme-text-muted);
     line-height: 1;
+    margin-left: 1px;
 }
-/* Delivered: muted tick */
-.textme-receipt-delivered .textme-receipt-icon {
+/* Delivered: both ticks muted grey */
+.textme-receipt-delivered .textme-receipt-ticks {
     color: var(--textme-text-muted);
 }
-/* Read: accent double tick */
-.textme-receipt-read .textme-receipt-icon {
+/* Read: both ticks accent colour */
+.textme-receipt-read .textme-receipt-ticks {
     color: var(--textme-accent, #7c3aed);
 }
 @keyframes textme-receipt-fade {
