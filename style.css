@@ -258,6 +258,14 @@
     background: var(--textme-surface);
     color: var(--textme-text);
 }
+/* Clear-all button: subtle red tint to signal destructive action */
+.textme-btn-clear {
+    color: #ef444480;
+}
+.textme-btn-clear:hover {
+    background: rgba(239, 68, 68, 0.12);
+    color: #ef4444;
+}
 
 /* ── Messages Area ── */
 
