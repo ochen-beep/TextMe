@@ -768,10 +768,167 @@
     margin: 8px 0;
 }
 
-/* ── Responsive / Mobile ── */
+/* ── Reply Quote (inside bubble) ── */
 
-/*
- * MOBILE LAYOUT — Visual Viewport API approach
+.textme-reply-quote {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    padding: 5px 10px;
+    margin-bottom: 4px;
+    border-radius: 10px;
+    border-left: 3px solid var(--textme-accent, #7c3aed);
+    background: rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    user-select: none;
+    max-width: 100%;
+    overflow: hidden;
+    transition: background 0.15s;
+}
+.textme-reply-quote:hover {
+    background: rgba(0, 0, 0, 0.25);
+}
+.textme-reply-quote-name {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--textme-accent, #7c3aed);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.textme-reply-quote-text {
+    font-size: 12px;
+    color: var(--textme-text-muted, #71717a);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Adjust bubble-content border-radius when a quote is present */
+.textme-bubble-wrap:has(.textme-reply-quote) .textme-bubble-content {
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+}
+
+/* ── Reply Button (hover / swipe indicator) ── */
+
+.textme-reply-btn {
+    background: none;
+    border: none;
+    color: var(--textme-text-muted, #71717a);
+    font-size: 16px;
+    cursor: pointer;
+    padding: 4px 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    align-self: center;
+    opacity: 0;
+    transition: opacity 0.15s, background 0.15s;
+    line-height: 1;
+    pointer-events: none;
+}
+/* Show reply button on bubble hover (desktop) */
+.textme-msg:hover .textme-reply-btn {
+    opacity: 1;
+    pointer-events: auto;
+}
+.textme-reply-btn:hover {
+    background: var(--textme-surface, #1a1a2e);
+    color: var(--textme-text, #e4e4e7);
+}
+/* On touch devices, always show it dimly so it's discoverable */
+@media (pointer: coarse) {
+    .textme-reply-btn {
+        opacity: 0.35;
+        pointer-events: auto;
+    }
+}
+
+/* ── Reply Bar (above input) ── */
+
+.textme-reply-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    background: var(--textme-surface, #1a1a2e);
+    border-top: 1px solid var(--textme-border, #27272a);
+    flex-shrink: 0;
+    animation: textme-fadeIn 0.15s ease;
+}
+.textme-reply-bar-accent {
+    width: 3px;
+    align-self: stretch;
+    border-radius: 2px;
+    background: var(--textme-accent, #7c3aed);
+    flex-shrink: 0;
+}
+.textme-reply-bar-body {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+.textme-reply-bar-name {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--textme-accent, #7c3aed);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.textme-reply-bar-text {
+    font-size: 12px;
+    color: var(--textme-text-muted, #71717a);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.textme-reply-bar-close {
+    background: none;
+    border: none;
+    color: var(--textme-text-muted, #71717a);
+    cursor: pointer;
+    font-size: 14px;
+    padding: 4px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    line-height: 1;
+    transition: background 0.15s, color 0.15s;
+}
+.textme-reply-bar-close:hover {
+    background: var(--textme-surface2, #16213e);
+    color: var(--textme-text, #e4e4e7);
+}
+
+/* ── Flash highlight (on scroll-to-quoted-message) ── */
+
+@keyframes textme-msg-flash {
+    0%   { background: rgba(124, 58, 237, 0.25); border-radius: 14px; }
+    60%  { background: rgba(124, 58, 237, 0.12); border-radius: 14px; }
+    100% { background: transparent; }
+}
+.textme-msg-flash {
+    animation: textme-msg-flash 1.2s ease forwards;
+}
+
+/* ── Reply layout: message row with reply button ── */
+
+/* User bubbles: reply btn on the LEFT of the bubble */
+.textme-msg-user {
+    flex-direction: row;
+    align-items: flex-end;
+    gap: 4px;
+}
+/* Char bubbles: reply btn on the RIGHT of the bubble */
+.textme-msg-char {
+    flex-direction: row;
+    align-items: flex-end;
+    gap: 4px;
+}
+
+/* ── Responsive / Mobile ──
  *
  * PROBLEM: Chrome 108+ on Android (including Yandex Browser) changed its
  * viewport resize behavior. When the virtual keyboard opens:
