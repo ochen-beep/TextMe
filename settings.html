@@ -27,7 +27,16 @@
                 <input id="textme_max_tokens" type="number" min="50" max="2000" step="50" value="300" class="text_pole" />
 
                 <label>SMS History (messages in conversation, 0 = all)</label>
-                <input id="textme_sms_history" type="number" min="0" max="500" step="5" value="50" class="text_pole" />
+                <div style="display:flex;gap:8px;align-items:center;">
+                    <div style="flex:1;">
+                        <span style="font-size:11px;color:var(--SmartThemeQuoteColor,#888);">Messages (0 = all)</span>
+                        <input id="textme_sms_history" type="number" min="0" max="500" step="5" value="50" class="text_pole" />
+                    </div>
+                    <div style="flex:1;">
+                        <span style="font-size:11px;color:var(--SmartThemeQuoteColor,#888);">Days (0 = disabled)</span>
+                        <input id="textme_sms_history_days" type="number" min="0" max="365" step="1" value="0" class="text_pole" />
+                    </div>
+                </div>
 
                 <label>RP Context Messages (injected into system prompt, 0 = disabled)</label>
                 <input id="textme_context_messages" type="number" min="0" max="50" step="1" value="10" class="text_pole" />
@@ -72,7 +81,16 @@
 
                 <div id="textme_rp_inject_options" style="margin-top:8px;">
                     <label>Messages to inject (0 = all)</label>
-                    <input id="textme_rp_inject_messages" type="number" min="0" max="500" step="5" value="20" class="text_pole" />
+                    <div style="display:flex;gap:8px;align-items:center;">
+                        <div style="flex:1;">
+                            <span style="font-size:11px;color:var(--SmartThemeQuoteColor,#888);">Messages (0 = all)</span>
+                            <input id="textme_rp_inject_messages" type="number" min="0" max="500" step="5" value="20" class="text_pole" />
+                        </div>
+                        <div style="flex:1;">
+                            <span style="font-size:11px;color:var(--SmartThemeQuoteColor,#888);">Days (0 = disabled)</span>
+                            <input id="textme_rp_inject_days" type="number" min="0" max="365" step="1" value="0" class="text_pole" />
+                        </div>
+                    </div>
 
                     <label style="margin-top:6px;">Injection Position</label>
                     <select id="textme_rp_inject_position" class="text_pole">
