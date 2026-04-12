@@ -11,7 +11,6 @@ import { loadSettingsUI } from './lib/settings-ui.js';
 import { initPhoneUI, destroyPhoneUI } from './lib/phone-ui.js';
 import { bindEvents } from './lib/events.js';
 import { registerCommands } from './lib/commands.js';
-import { startAutonomousTimer } from './lib/autonomous.js';
 import { log } from './lib/logger.js';
 
 const extensionFolderPath = new URL('.', import.meta.url).pathname.replace(/\/$/, '');
@@ -48,14 +47,10 @@ async function init() {
     bindEvents();
 
     // If extension was enabled in previous session, restore phone UI
+    // (initPhoneUI internally starts the autonomous timer if autonomousEnabled)
     const settings = getSettings();
     if (settings.enabled && hasCharacter()) {
         initPhoneUI();
-
-        // Start autonomous timer if enabled
-        if (settings.autonomousEnabled) {
-            startAutonomousTimer();
-        }
     }
 
     log.info('Extension loaded.');
