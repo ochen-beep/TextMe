@@ -9,6 +9,7 @@
     "version": "0.0.3-alpha",
     "homePage": "https://github.com/ochen-beep/TextMe",
     "auto_update": true,
+    "minimum_client_version": "1.12.0",
     "i18n": {
         "ru-ru": "i18n/ru-ru.json"
     }
