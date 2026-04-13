@@ -13,8 +13,6 @@ import { bindEvents } from './lib/events.js';
 import { registerCommands } from './lib/commands.js';
 import { log } from './lib/logger.js';
 
-const extensionFolderPath = new URL('.', import.meta.url).pathname.replace(/\/$/, '');
-
 /**
  * Main initialization — runs when ST is ready.
  */
@@ -29,9 +27,15 @@ async function init() {
         mergeDefaults(context.extensionSettings[EXTENSION_NAME]);
     }
 
-    // Inject settings panel HTML
+    // Inject settings panel HTML.
+    // renderExtensionTemplateAsync automatically applies data-i18n translations
+    // from the manifest i18n entry (i18n/ru-ru.json) before inserting the HTML.
     try {
-        const settingsHtml = await $.get(`${extensionFolderPath}/settings.html`);
+        const settingsHtml = await context.renderExtensionTemplateAsync(
+            'third-party/TextMe',
+            'settings',
+            {},
+        );
         $('#extensions_settings2').append(settingsHtml);
     } catch (e) {
         log.error('Failed to load settings HTML:', e);
