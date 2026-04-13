@@ -21,6 +21,8 @@
     --textme-shadow: rgba(0, 0, 0, 0.5);
     --textme-ctx-bg: #1a1a2e;
     --textme-ctx-hover: #2a2a3e;
+    /* Solid modal bg — must never be transparent regardless of ST theme */
+    --textme-modal-bg: #1a1a2e;
 }
 
 .textme-theme-light {
@@ -39,6 +41,8 @@
     --textme-shadow: rgba(0, 0, 0, 0.15);
     --textme-ctx-bg: #ffffff;
     --textme-ctx-hover: #f0f0f0;
+    /* Solid modal bg — must never be transparent regardless of ST theme */
+    --textme-modal-bg: #ffffff;
 }
 
 /* Color schemes */
@@ -228,16 +232,48 @@
     flex: 1;
     min-width: 0;
 }
+.textme-header-name-row {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    min-width: 0;
+}
 .textme-header-name {
     font-weight: 600;
     font-size: 15px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    min-width: 0;
+    flex: 1;
 }
 .textme-header-status {
     font-size: 12px;
     color: var(--textme-text-muted);
+}
+
+/* Pencil button next to name — hidden by default, visible on header hover */
+.textme-btn-edit-contact {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--textme-text-muted);
+    padding: 2px 4px;
+    border-radius: 5px;
+    font-size: 10px;
+    opacity: 0;
+    transition: opacity 0.15s, color 0.15s, background 0.15s;
+    flex-shrink: 0;
+    line-height: 1;
+}
+.textme-header:hover .textme-btn-edit-contact,
+.textme-btn-edit-contact:focus {
+    opacity: 1;
+}
+.textme-btn-edit-contact:hover {
+    color: var(--textme-text);
+    background: var(--textme-surface);
+    opacity: 1;
 }
 
 .textme-header-actions {
@@ -257,6 +293,15 @@
 .textme-btn-icon:hover {
     background: var(--textme-surface);
     color: var(--textme-text);
+}
+
+/* Clear-all button: subtle red tint to signal destructive action */
+.textme-btn-clear {
+    color: #ef444480;
+}
+.textme-btn-clear:hover {
+    background: rgba(239, 68, 68, 0.12);
+    color: #ef4444;
 }
 
 /* ── Messages Area ── */
@@ -320,15 +365,9 @@
 
 .textme-msg-user {
     align-self: flex-end;
-    flex-direction: row;
-    align-items: flex-end;
-    gap: 4px;
 }
 .textme-msg-char {
     align-self: flex-start;
-    flex-direction: row;
-    align-items: flex-end;
-    gap: 4px;
 }
 
 .textme-bubble-wrap {
@@ -922,6 +961,21 @@
     animation: textme-msg-flash 1.2s ease forwards;
 }
 
+/* ── Reply layout: message row with reply button ── */
+
+/* User bubbles: reply btn on the LEFT of the bubble */
+.textme-msg-user {
+    flex-direction: row;
+    align-items: flex-end;
+    gap: 4px;
+}
+/* Char bubbles: reply btn on the RIGHT of the bubble */
+.textme-msg-char {
+    flex-direction: row;
+    align-items: flex-end;
+    gap: 4px;
+}
+
 /* ── Responsive / Mobile ──
  *
  * PROBLEM: Chrome 108+ on Android (including Yandex Browser) changed its
@@ -1004,4 +1058,223 @@
     .textme-resize-handle {
         display: none;
     }
+}
+
+/* ── Contact Edit Modal ── */
+
+.textme-contact-modal {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.55);
+    z-index: 200;
+    border-radius: inherit;
+}
+
+.textme-contact-modal-box {
+    background: var(--textme-modal-bg, #1a1a2e);
+    border: 1px solid var(--textme-border);
+    border-radius: 16px;
+    padding: 20px 18px 16px;
+    width: calc(100% - 32px);
+    max-width: 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.35);
+}
+
+.textme-contact-modal-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--textme-text);
+    text-align: center;
+}
+
+/* Scope toggle row */
+.textme-contact-scope-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+.textme-contact-scope-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--textme-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+}
+.textme-contact-scope-toggle {
+    display: flex;
+    background: var(--textme-surface);
+    border: 1px solid var(--textme-border);
+    border-radius: 8px;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+.textme-scope-btn {
+    background: none;
+    border: none;
+    padding: 5px 10px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--textme-text-muted);
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+    white-space: nowrap;
+}
+.textme-scope-btn.active {
+    background: var(--textme-accent, #7c3aed);
+    color: #fff;
+}
+.textme-scope-btn:not(.active):hover {
+    color: var(--textme-text);
+}
+
+/* Avatar preview inside modal */
+.textme-contact-modal-avatar-preview {
+    display: flex;
+    justify-content: center;
+}
+.textme-contact-modal-avatar-img {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: var(--textme-surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--textme-text-muted);
+    font-size: 28px;
+    border: 2px solid var(--textme-border);
+}
+.textme-contact-modal-avatar-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Crop zone */
+.textme-contact-crop-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+.textme-contact-crop-canvas {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    cursor: grab;
+    touch-action: none;
+    display: block;
+    image-rendering: auto;
+}
+.textme-contact-crop-canvas:active {
+    cursor: grabbing;
+}
+.textme-contact-crop-hint {
+    font-size: 10px;
+    color: var(--textme-text-muted);
+    text-align: center;
+    letter-spacing: 0.02em;
+}
+
+/* Form fields */
+.textme-contact-modal-field {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.textme-contact-modal-field label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--textme-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+.textme-contact-modal-field input[type="text"] {
+    background: var(--textme-surface);
+    border: 1px solid var(--textme-border);
+    border-radius: 8px;
+    padding: 7px 10px;
+    font-size: 13px;
+    color: var(--textme-text);
+    outline: none;
+    transition: border-color 0.15s;
+    width: 100%;
+    box-sizing: border-box;
+}
+.textme-contact-modal-field input[type="text"]:focus {
+    border-color: var(--textme-accent, #3b82f6);
+}
+
+/* File upload button */
+.textme-contact-file-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--textme-surface);
+    border: 1px solid var(--textme-border);
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 12px;
+    color: var(--textme-text-muted);
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+    user-select: none;
+    width: fit-content;
+}
+.textme-contact-file-label:hover {
+    background: var(--textme-surface-hover, var(--textme-surface));
+    color: var(--textme-text);
+}
+
+/* Action buttons row */
+.textme-contact-modal-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: 2px;
+}
+.textme-contact-modal-actions-right {
+    display: flex;
+    gap: 8px;
+}
+.textme-contact-btn {
+    border: none;
+    border-radius: 9px;
+    padding: 7px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s, opacity 0.15s;
+}
+.textme-contact-btn-primary {
+    background: var(--textme-accent, #3b82f6);
+    color: #fff;
+}
+.textme-contact-btn-primary:hover {
+    opacity: 0.85;
+}
+.textme-contact-btn-ghost {
+    background: var(--textme-surface);
+    color: var(--textme-text-muted);
+    border: 1px solid var(--textme-border);
+}
+.textme-contact-btn-ghost:hover {
+    color: var(--textme-text);
+}
+.textme-contact-btn-danger {
+    background: rgba(239,68,68,0.12);
+    color: #ef4444;
+}
+.textme-contact-btn-danger:hover {
+    background: rgba(239,68,68,0.22);
 }
