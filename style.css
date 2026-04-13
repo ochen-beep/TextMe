@@ -814,6 +814,216 @@
     margin: 8px 0;
 }
 
+/* ── Settings: Section Drawers (nested inline-drawers) ── */
+
+.textme-section-drawer {
+    border: 1px solid var(--SmartThemeBorderColor, rgba(128,128,128,0.2));
+    border-radius: 6px;
+    margin: 4px 0;
+    overflow: hidden;
+}
+
+.textme-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 7px 10px;
+    background: rgba(128,128,128,0.06);
+    cursor: pointer;
+    user-select: none;
+    /* override any default inline-drawer-header margin */
+    margin: 0 !important;
+}
+.textme-section-header:hover {
+    background: rgba(128,128,128,0.12);
+}
+
+.textme-section-title {
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.textme-section-body {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 10px;
+    /* prevent display:none flash before JS */
+}
+
+/* Utility spacing helpers */
+.textme-mt2  { margin-top: 2px; }
+.textme-mt3  { margin-top: 3px; }
+.textme-mt4  { margin-top: 4px; }
+.textme-mt6  { margin-top: 6px; }
+.textme-mt8  { margin-top: 8px; }
+.textme-mt10 { margin-top: 10px; }
+.textme-mb6  { margin-bottom: 6px; }
+.textme-mb8  { margin-bottom: 8px; }
+
+/* Hint / description text (replaces inline <p style="..."> */
+.textme-hint {
+    font-size: 11px;
+    color: var(--SmartThemeQuoteColor, #888);
+    margin: 0;
+    line-height: 1.4;
+}
+.textme-hint-indented {
+    margin-left: 22px;
+}
+
+/* Inline label with small sub-label */
+.textme-label-with-hint {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 4px;
+}
+.textme-label-sub {
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--SmartThemeQuoteColor, #888);
+}
+
+/* Monospace code snippets inside labels */
+.textme-code {
+    font-size: 10px;
+    font-family: monospace;
+}
+
+/* Inner <hr> inside sections */
+.textme-hr-inner {
+    border-color: var(--SmartThemeBorderColor, rgba(128,128,128,0.2));
+    margin: 8px 0 6px;
+}
+
+/* Button row (full-width button with top margin) */
+.textme-btn-row {
+    margin-top: 6px;
+}
+
+/* Group of action buttons (flex-wrap) */
+.textme-btn-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+/* ── Settings: Twin fields (two inputs side-by-side) ── */
+
+.textme-twin-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+.textme-twin-field {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.textme-field-hint {
+    font-size: 11px;
+    color: var(--SmartThemeQuoteColor, #888);
+}
+
+/* ── Settings: Delay / Threshold grid ── */
+
+/* Layout: label + min/max row, stacked per status */
+.textme-delay-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.textme-delay-label {
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+
+/* Min / Max row inside the grid */
+.textme-minmax-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.textme-minmax-lbl {
+    font-size: 11px;
+    min-width: 28px;
+}
+.textme-minmax-input {
+    width: 70px !important;
+    flex: none !important;
+}
+
+/* Single-value variant (autonomous thresholds: label + one input) */
+.textme-delay-grid--single .textme-delay-label {
+    margin-bottom: 0;
+}
+
+/* ── Settings: Preset bar ── */
+
+.textme-preset-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 8px;
+    background: rgba(128,128,128,0.08);
+    border-radius: 6px;
+    margin-bottom: 6px;
+}
+.textme-preset-label {
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+.textme-preset-select {
+    flex: 1;
+    min-width: 120px;
+    font-size: 12px;
+    height: 28px;
+    padding: 2px 6px;
+}
+.textme-preset-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+.textme-preset-btn {
+    font-size: 11px !important;
+    padding: 3px 8px !important;
+}
+
+/* On narrow screens, hide text labels in preset buttons — icons only */
+@media (max-width: 480px) {
+    .textme-preset-btn-label {
+        display: none;
+    }
+    .textme-minmax-input {
+        width: 60px !important;
+    }
+    .textme-twin-fields {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+/* ── Settings: Volume row ── */
+
+.textme-volume-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.textme-volume-slider {
+    flex: 1;
+}
+.textme-volume-value {
+    min-width: 36px;
+    font-size: 12px;
+    text-align: right;
+}
+
 /* ── Reply Quote (inside bubble) ── */
 
 .textme-reply-quote {
