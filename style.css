@@ -252,33 +252,32 @@
     color: var(--textme-text-muted);
 }
 
-/* Pencil button next to name — hidden by default, visible on header hover */
+/* Edit contact button — always visible, lives in header-actions next to trash */
 .textme-btn-edit-contact {
     background: none;
     border: none;
     cursor: pointer;
     color: var(--textme-text-muted);
-    padding: 2px 4px;
-    border-radius: 5px;
-    font-size: 10px;
-    opacity: 0;
-    transition: opacity 0.15s, color 0.15s, background 0.15s;
+    padding: 6px;
+    border-radius: 8px;
+    font-size: 14px;
+    opacity: 1;
+    transition: color 0.15s, background 0.15s;
     flex-shrink: 0;
     line-height: 1;
-}
-.textme-header:hover .textme-btn-edit-contact,
-.textme-btn-edit-contact:focus {
-    opacity: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .textme-btn-edit-contact:hover {
     color: var(--textme-text);
     background: var(--textme-surface);
-    opacity: 1;
 }
 
 .textme-header-actions {
     display: flex;
     gap: 4px;
+    align-items: center;
 }
 .textme-btn-icon {
     background: none;
