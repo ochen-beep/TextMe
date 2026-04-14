@@ -711,14 +711,24 @@
 .textme-emoji-picker {
     background: var(--textme-surface);
     border: 1px solid var(--textme-border);
-    border-radius: 12px;
-    box-shadow: 0 -4px 24px var(--textme-shadow);
+    border-radius: 14px;
+    box-shadow: 0 -4px 28px var(--textme-shadow);
     z-index: 10020;
     padding: 8px;
     display: flex;
     flex-direction: column;
     gap: 6px;
-    max-height: 260px;
+    max-height: 300px;
+    /* Slide-up animation */
+    transform: translateY(12px);
+    opacity: 0;
+    transition: transform 0.18s ease, opacity 0.18s ease;
+    pointer-events: none;
+}
+.textme-emoji-picker--open {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
 }
 
 .textme-emoji-search {
@@ -731,6 +741,7 @@
     font-size: 13px;
     outline: none;
     box-sizing: border-box;
+    flex-shrink: 0;
 }
 .textme-emoji-search:focus {
     border-color: var(--textme-accent, #7c3aed);
@@ -741,6 +752,7 @@
     gap: 2px;
     overflow-x: auto;
     scrollbar-width: none;
+    flex-shrink: 0;
 }
 .textme-emoji-tabs::-webkit-scrollbar { display: none; }
 
@@ -753,6 +765,7 @@
     font-size: 16px;
     flex-shrink: 0;
     transition: background 0.1s;
+    line-height: 1.2;
 }
 .textme-emoji-tab:hover {
     background: var(--textme-surface2);
@@ -765,8 +778,19 @@
 .textme-emoji-grid {
     overflow-y: auto;
     flex: 1;
+    min-height: 0;
     scrollbar-width: thin;
     scrollbar-color: var(--textme-border) transparent;
+}
+.textme-emoji-grid::-webkit-scrollbar {
+    width: 4px;
+}
+.textme-emoji-grid::-webkit-scrollbar-thumb {
+    background: var(--textme-border);
+    border-radius: 2px;
+}
+.textme-emoji-grid::-webkit-scrollbar-track {
+    background: transparent;
 }
 
 .textme-emoji-row {
@@ -778,9 +802,9 @@
 .textme-emoji-btn {
     background: none;
     border: none;
-    font-size: 20px;
+    font-size: 22px;
     cursor: pointer;
-    padding: 4px;
+    padding: 4px 5px;
     border-radius: 6px;
     line-height: 1;
     transition: background 0.1s, transform 0.1s;
@@ -794,13 +818,14 @@
     padding: 16px;
     text-align: center;
     color: var(--textme-text-muted);
-    font-size: 13px;
+    font-size: 12px;
 }
 
 /* Emoji button in input bar */
 .textme-btn-emoji {
-    font-size: 18px;
+    font-size: 20px;
     flex-shrink: 0;
+    line-height: 1;
 }
 
 /* ── Popup / Modal common styles ──
