@@ -803,23 +803,271 @@
     flex-shrink: 0;
 }
 
-/* ── Settings Panel ── */
+/* ── Popup / Modal common styles ──
+ *
+ * ST Popup renders inside .popup_content which doesn't reset browser
+ * form-control colors. Firefox uses system white/black by default.
+ * These rules apply to ALL textme-* popup HTML regardless of ST theme.
+ *
+ * Selector: .textme-popup scopes to our own popup HTML only.
+ */
 
-.textme-settings h4 {
-    margin-top: 8px;
-    margin-bottom: 4px;
+.textme-popup {
+    padding: 12px;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--SmartThemeBodyColor, inherit);
 }
-.textme-settings hr {
-    border-color: var(--SmartThemeBorderColor, #333);
-    margin: 8px 0;
+
+.textme-popup h3 {
+    margin: 0 0 4px;
+    font-size: 15px;
 }
+
+.textme-popup-hint {
+    font-size: 12px;
+    color: var(--SmartThemeQuoteColor, #888);
+    margin: 0;
+}
+
+/* Form field row: label above, control below */
+.textme-popup-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.textme-popup-field label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--SmartThemeQuoteColor, #888);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    margin: 0;
+}
+
+/* All form controls inside our popups — override Firefox/system styles */
+.textme-popup input[type="text"],
+.textme-popup input[type="number"],
+.textme-popup input[type="time"],
+.textme-popup input[type="datetime-local"],
+.textme-popup input[type="range"],
+.textme-popup select,
+.textme-popup textarea {
+    background: var(--SmartThemeBlurTintColor, var(--SmartThemeBodyColor, transparent));
+    background: var(--in-editor-color, var(--SmartThemeBodyColor, transparent));
+    /* Use ST's actual input background — most themes define one of these */
+    background-color: color-mix(in srgb, var(--SmartThemeBodyColor, #fff) 8%, transparent);
+    color: var(--SmartThemeBodyColor, inherit);
+    border: 1px solid var(--SmartThemeBorderColor, rgba(128,128,128,0.4));
+    border-radius: 6px;
+    padding: 5px 8px;
+    font-size: 13px;
+    font-family: inherit;
+    box-sizing: border-box;
+    outline: none;
+    width: 100%;
+    /* Prevent Firefox orange glow on invalid */
+    box-shadow: none;
+}
+
+/* Override the color-mix hack above with a simpler approach:
+   Use the same variables that .text_pole uses in ST */
+.textme-popup input[type="text"],
+.textme-popup input[type="number"],
+.textme-popup input[type="time"],
+.textme-popup input[type="datetime-local"],
+.textme-popup select,
+.textme-popup textarea {
+    background-color: var(--SmartThemeBodyColor, rgba(128,128,128,0.08));
+    /* SmartThemeBodyColor is usually the page BG — works as input BG in dark themes.
+       For light themes it's white, which also looks fine. */
+    opacity: 1;
+}
+
+/* Inputs that shouldn't be full-width */
+.textme-popup input.textme-popup-short {
+    width: 80px;
+}
+.textme-popup input.textme-popup-time {
+    width: 100px;
+}
+
+.textme-popup input[type="text"]:focus,
+.textme-popup input[type="number"]:focus,
+.textme-popup input[type="time"]:focus,
+.textme-popup input[type="datetime-local"]:focus,
+.textme-popup select:focus,
+.textme-popup textarea:focus {
+    border-color: var(--SmartThemeEmColor, var(--textme-accent, #7c3aed));
+}
+
+/* Checkbox row */
+.textme-popup-check {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+}
+
+/* Inline row: label+control side by side */
+.textme-popup-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.textme-popup-row label {
+    flex: 1;
+    font-size: 13px;
+    font-weight: normal;
+    color: var(--SmartThemeBodyColor, inherit);
+    text-transform: none;
+    letter-spacing: 0;
+    margin: 0;
+}
+.textme-popup-row .textme-popup-short {
+    width: 80px;
+    flex: none;
+}
+
+/* Button group row */
+.textme-popup-btns {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+.textme-popup-btns button {
+    flex: 1;
+    min-width: 60px;
+}
+
+/* ── Schedule Modal ── */
+
+.textme-sched-legend {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    font-size: 12px;
+}
+.textme-sched-legend-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 4px;
+    vertical-align: middle;
+    flex-shrink: 0;
+}
+
+.textme-sched-days {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.textme-sched-day-row {
+    display: grid;
+    grid-template-columns: 90px 1fr auto;
+    align-items: center;
+    gap: 10px;
+}
+.textme-sched-day-label {
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+.textme-sched-today-badge {
+    display: inline-block;
+    font-size: 10px;
+    background: var(--textme-accent, #7c3aed);
+    color: #fff;
+    border-radius: 4px;
+    padding: 1px 5px;
+    margin-left: 6px;
+    vertical-align: middle;
+}
+.textme-sched-timeline {
+    /* container for the colored bar */
+}
+.textme-sched-edit-btn {
+    font-size: 12px;
+    padding: 2px 10px !important;
+    white-space: nowrap;
+}
+
+/* Day editor */
+.textme-day-blocks {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.textme-day-block-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+.textme-day-block-row .textme-popup-time {
+    flex: none;
+}
+.textme-day-sep {
+    font-size: 13px;
+    color: var(--SmartThemeQuoteColor, #888);
+    flex-shrink: 0;
+}
+.textme-day-status-badge {
+    border: none;
+    border-radius: 6px;
+    padding: 2px 8px;
+    cursor: pointer;
+    font-size: 12px;
+    color: #fff;
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+.textme-day-activity-input {
+    flex: 1;
+    min-width: 80px;
+}
+.textme-day-del-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #ef4444;
+    font-size: 18px;
+    line-height: 1;
+    padding: 0 2px;
+    flex-shrink: 0;
+}
+.textme-day-empty {
+    font-size: 12px;
+    color: var(--SmartThemeQuoteColor, #888);
+}
+.textme-day-add-btn {
+    font-size: 12px;
+    padding: 4px 12px !important;
+}
+
+/* Timeline bar segments */
+.textme-timeline-bar {
+    display: flex;
+    border-radius: 4px;
+    overflow: hidden;
+    height: 8px;
+}
+.textme-timeline-seg {
+    height: 8px;
+}
+
+/* ── Settings Panel ── */
 
 /* ── Settings: Section Drawers (nested inline-drawers) ── */
 
 .textme-section-drawer {
     border: 1px solid var(--SmartThemeBorderColor, rgba(128,128,128,0.2));
     border-radius: 6px;
-    margin: 4px 0;
+    margin: 3px 0;
     overflow: hidden;
 }
 
@@ -827,11 +1075,10 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 7px 10px;
+    padding: 6px 10px;
     background: rgba(128,128,128,0.06);
     cursor: pointer;
     user-select: none;
-    /* override any default inline-drawer-header margin */
     margin: 0 !important;
 }
 .textme-section-header:hover {
@@ -847,165 +1094,168 @@
     display: flex;
     flex-direction: column;
     gap: 4px;
-    padding: 10px;
-    /* prevent display:none flash before JS */
+    padding: 8px 10px;
 }
 
-/* Utility spacing helpers */
-.textme-mt2  { margin-top: 2px; }
-.textme-mt3  { margin-top: 3px; }
-.textme-mt4  { margin-top: 4px; }
-.textme-mt6  { margin-top: 6px; }
-.textme-mt8  { margin-top: 8px; }
-.textme-mt10 { margin-top: 10px; }
-.textme-mb6  { margin-bottom: 6px; }
-.textme-mb8  { margin-bottom: 8px; }
+/* ── Settings: inline row (label left, control right) ── */
 
-/* Hint / description text (replaces inline <p style="..."> */
-.textme-hint {
-    font-size: 11px;
-    color: var(--SmartThemeQuoteColor, #888);
-    margin: 0;
-    line-height: 1.4;
-}
-.textme-hint-indented {
-    margin-left: 22px;
-}
-
-/* Inline label with small sub-label */
-.textme-label-with-hint {
+/* Single label+control row */
+.textme-row {
     display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 4px;
-}
-.textme-label-sub {
-    font-size: 11px;
-    font-weight: 400;
-    color: var(--SmartThemeQuoteColor, #888);
-}
-
-/* Monospace code snippets inside labels */
-.textme-code {
-    font-size: 10px;
-    font-family: monospace;
-}
-
-/* Inner <hr> inside sections */
-.textme-hr-inner {
-    border-color: var(--SmartThemeBorderColor, rgba(128,128,128,0.2));
-    margin: 8px 0 6px;
-}
-
-/* Button row (full-width button with top margin) */
-.textme-btn-row {
-    margin-top: 6px;
-}
-
-/* Group of action buttons (flex-wrap) */
-.textme-btn-group {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-}
-
-/* ── Settings: Twin fields (two inputs side-by-side) ── */
-
-.textme-twin-fields {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    justify-content: space-between;
     gap: 8px;
+    min-height: 28px;
 }
-.textme-twin-field {
+.textme-row label {
+    flex: 1;
+    margin: 0;
+    font-size: 13px;
+}
+/* taller variant — for selects that need more breathing room */
+.textme-row--tall {
+    align-items: flex-start;
+    padding-top: 2px;
+}
+
+/* Short number input (right side of .textme-row) */
+.textme-input-short {
+    width: 72px !important;
+    flex: none !important;
+    text-align: center;
+}
+
+/* Select that lives on the right side of .textme-row */
+.textme-select-right {
+    width: 160px !important;
+    flex: none !important;
+}
+@media (max-width: 480px) {
+    .textme-select-right {
+        width: 130px !important;
+    }
+}
+
+/* Paired inputs (msg + days) on the right side of .textme-row */
+.textme-minmax-pair {
     display: flex;
-    flex-direction: column;
-    gap: 2px;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
 }
 .textme-field-hint {
     font-size: 11px;
     color: var(--SmartThemeQuoteColor, #888);
+    white-space: nowrap;
 }
 
-/* ── Settings: Delay / Threshold grid ── */
-
-/* Layout: label + min/max row, stacked per status */
-.textme-delay-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-
-.textme-delay-label {
-    font-size: 12px;
-    font-weight: 600;
-    margin-bottom: 2px;
-}
-
-/* Min / Max row inside the grid */
-.textme-minmax-row {
+/* Horizontal flex row for two sibling elements (e.g. checkbox + button) */
+.textme-field-row {
     display: flex;
     align-items: center;
     gap: 8px;
+    flex-wrap: wrap;
 }
-.textme-minmax-lbl {
-    font-size: 11px;
-    min-width: 28px;
-}
-.textme-minmax-input {
-    width: 70px !important;
-    flex: none !important;
+.textme-field-row .checkbox_label {
+    flex: 1;
 }
 
-/* Single-value variant (autonomous thresholds: label + one input) */
-.textme-delay-grid--single .textme-delay-label {
-    margin-bottom: 0;
+/* Small utility button (icon-only or icon+short text) */
+.textme-btn-sm {
+    padding: 3px 8px !important;
+    font-size: 12px !important;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+/* ── Settings: Delay table ──
+ * Grid: [status] [lbl] [input] [lbl] [input] [unit]
+ * Each row = one status line; rows repeat via auto-flow.
+ */
+.textme-delay-table {
+    display: grid;
+    grid-template-columns: auto auto 60px auto 60px auto;
+    align-items: center;
+    gap: 4px 6px;
+}
+/* Single-input variant: [status] [input] [unit] */
+.textme-delay-table--single {
+    grid-template-columns: auto 60px 1fr;
+}
+
+.textme-delay-status {
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+.textme-delay-lbl {
+    font-size: 11px;
+    color: var(--SmartThemeQuoteColor, #888);
+    white-space: nowrap;
+}
+.textme-delay-unit {
+    font-size: 11px;
+    color: var(--SmartThemeQuoteColor, #888);
+    white-space: nowrap;
 }
 
 /* ── Settings: Preset bar ── */
 
 .textme-preset-bar {
     display: flex;
-    flex-wrap: wrap;
     align-items: center;
     gap: 6px;
-    padding: 6px 8px;
+    padding: 5px 8px;
     background: rgba(128,128,128,0.08);
     border-radius: 6px;
-    margin-bottom: 6px;
 }
 .textme-preset-label {
     font-size: 12px;
     font-weight: 600;
     white-space: nowrap;
+    flex-shrink: 0;
 }
 .textme-preset-select {
     flex: 1;
-    min-width: 120px;
+    min-width: 80px;
     font-size: 12px;
-    height: 28px;
-    padding: 2px 6px;
+    height: 26px;
+    padding: 2px 4px;
 }
 .textme-preset-actions {
     display: flex;
-    flex-wrap: wrap;
-    gap: 4px;
+    gap: 3px;
+    flex-shrink: 0;
 }
 .textme-preset-btn {
-    font-size: 11px !important;
-    padding: 3px 8px !important;
+    font-size: 12px !important;
+    padding: 3px 7px !important;
 }
 
-/* On narrow screens, hide text labels in preset buttons — icons only */
-@media (max-width: 480px) {
-    .textme-preset-btn-label {
-        display: none;
-    }
-    .textme-minmax-input {
-        width: 60px !important;
-    }
-    .textme-twin-fields {
-        grid-template-columns: 1fr 1fr;
-    }
+/* ── Settings: Group of action buttons ── */
+
+.textme-btn-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+/* ── Settings: Hint / sub-label text ── */
+
+.textme-hint {
+    font-size: 11px;
+    color: var(--SmartThemeQuoteColor, #888);
+    margin: 0;
+    line-height: 1.4;
+}
+.textme-label-sub {
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--SmartThemeQuoteColor, #888);
+}
+.textme-code {
+    font-size: 10px;
+    font-family: monospace;
 }
 
 /* ── Settings: Volume row ── */
@@ -1014,14 +1264,17 @@
     display: flex;
     align-items: center;
     gap: 8px;
+    flex: 1;
 }
 .textme-volume-slider {
     flex: 1;
+    min-width: 60px;
 }
 .textme-volume-value {
-    min-width: 36px;
+    min-width: 34px;
     font-size: 12px;
     text-align: right;
+    flex-shrink: 0;
 }
 
 /* ── Reply Quote (inside bubble) ── */

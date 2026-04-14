@@ -14,62 +14,49 @@
                 </div>
                 <div class="inline-drawer-content textme-section-body">
 
-                    <label class="checkbox_label">
-                        <input id="textme_enabled" type="checkbox" />
-                        <span data-i18n="Enable Phone">Enable Phone</span>
-                    </label>
-
-                    <!-- Show Phone button — mobile fallback -->
-                    <button id="textme_show_phone" class="menu_button textme-btn-row">
-                        <i class="fa-solid fa-mobile-screen-button"></i>
-                        <span data-i18n="Show Phone / Open">Show Phone / Open</span>
-                    </button>
-                    <p class="textme-hint"
-                       data-i18n="On mobile: if the floating bubble is hidden behind the browser bar or navigation, use this button to open the phone directly.">
-                        On mobile: if the floating bubble is hidden behind the browser bar or navigation,
-                        use this button to open the phone directly.
-                    </p>
-
-                    <label data-i18n="Max Response Tokens">Max Response Tokens</label>
-                    <input id="textme_max_tokens" type="number" min="50" max="2000" step="50" value="300" class="text_pole" />
-
-                    <label data-i18n="SMS History (messages in conversation, 0 = all)">SMS History (messages in conversation, 0 = all)</label>
-                    <div class="textme-twin-fields">
-                        <div class="textme-twin-field">
-                            <span class="textme-field-hint" data-i18n="Messages (0 = all)">Messages (0 = all)</span>
-                            <input id="textme_sms_history" type="number" min="0" max="500" step="5" value="50" class="text_pole" />
-                        </div>
-                        <div class="textme-twin-field">
-                            <span class="textme-field-hint" data-i18n="Days (0 = disabled)">Days (0 = disabled)</span>
-                            <input id="textme_sms_history_days" type="number" min="0" max="365" step="1" value="0" class="text_pole" />
-                        </div>
+                    <div class="textme-field-row">
+                        <label class="checkbox_label">
+                            <input id="textme_enabled" type="checkbox" />
+                            <span data-i18n="Enable Phone">Enable Phone</span>
+                        </label>
+                        <button id="textme_show_phone" class="menu_button textme-btn-sm" title="Show Phone / Open (mobile fallback)">
+                            <i class="fa-solid fa-mobile-screen-button"></i>
+                            <span data-i18n="Show Phone">Show Phone</span>
+                        </button>
                     </div>
 
-                    <label data-i18n="RP Context Messages (injected into system prompt, 0 = disabled)">RP Context Messages (injected into system prompt, 0 = disabled)</label>
-                    <input id="textme_context_messages" type="number" min="0" max="50" step="1" value="10" class="text_pole" />
+                    <div class="textme-row">
+                        <label data-i18n="Max Response Tokens">Max Response Tokens</label>
+                        <input id="textme_max_tokens" type="number" min="50" max="2000" step="50" value="300" class="text_pole textme-input-short" />
+                    </div>
 
-                    <label class="checkbox_label textme-mt4">
+                    <div class="textme-row">
+                        <label data-i18n="SMS History">SMS History</label>
+                        <div class="textme-minmax-pair">
+                            <span class="textme-field-hint" data-i18n="msg">msg</span>
+                            <input id="textme_sms_history" type="number" min="0" max="500" step="5" value="50" class="text_pole textme-input-short" />
+                            <span class="textme-field-hint" data-i18n="days">days</span>
+                            <input id="textme_sms_history_days" type="number" min="0" max="365" step="1" value="0" class="text_pole textme-input-short" />
+                        </div>
+                    </div>
+                    <p class="textme-hint" data-i18n="messages in context (0=all) and cutoff days (0=disabled)">messages in context (0=all) · days cutoff (0=off)</p>
+
+                    <div class="textme-row">
+                        <label data-i18n="RP Context Messages">RP Context Messages</label>
+                        <input id="textme_context_messages" type="number" min="0" max="50" step="1" value="10" class="text_pole textme-input-short" />
+                    </div>
+                    <p class="textme-hint" data-i18n="injected into system prompt, 0 = disabled">injected into system prompt, 0 = disabled</p>
+
+                    <label class="checkbox_label">
                         <input id="textme_send_on_enter" type="checkbox" checked />
                         <span data-i18n="Send on Enter (Shift+Enter = newline)">Send on Enter (Shift+Enter = newline)</span>
                     </label>
 
-                    <!-- Connection Profile -->
-                    <div class="textme-profile-row textme-mt10">
-                        <label class="textme-label-with-hint">
-                            <span data-i18n="Connection Profile">Connection Profile</span>
-                            <span class="textme-label-sub"
-                                  data-i18n="select which API profile TextMe uses for generation">
-                                select which API profile TextMe uses for generation
-                            </span>
-                        </label>
-                        <select id="textme_connection_profile" class="text_pole">
-                            <option value="" data-i18n="Select a Connection Profile">Select a Connection Profile</option>
+                    <div class="textme-row textme-row--tall">
+                        <label data-i18n="Connection Profile">Connection Profile</label>
+                        <select id="textme_connection_profile" class="text_pole textme-select-right">
+                            <option value="" data-i18n="— active connection —">— active connection —</option>
                         </select>
-                        <p class="textme-hint textme-mt3">
-                            <span data-i18n="Leave blank to use ST's currently active connection. Requires the">Leave blank to use ST's currently active connection. Requires the</span>
-                            <b data-i18n="Connection Profiles">Connection Profiles</b>
-                            <span data-i18n="extension to be enabled.">extension to be enabled.</span>
-                        </p>
                     </div>
 
                 </div>
@@ -83,73 +70,53 @@
                 </div>
                 <div class="inline-drawer-content textme-section-body">
 
-                    <p class="textme-hint textme-mb6"
-                       data-i18n="Inject the SMS conversation history into the roleplay chat prompt so the character knows what was texted during the RP scene.">
-                        Inject the SMS conversation history into the roleplay chat prompt so the
-                        character knows what was texted during the RP scene.
-                    </p>
-
                     <label class="checkbox_label">
                         <input id="textme_rp_inject_enabled" type="checkbox" />
                         <span data-i18n="Inject SMS history into RP context">Inject SMS history into RP context</span>
                     </label>
 
-                    <div id="textme_rp_inject_options" class="textme-mt8">
+                    <div id="textme_rp_inject_options">
 
-                        <label data-i18n="Messages to inject (0 = all)">Messages to inject (0 = all)</label>
-                        <div class="textme-twin-fields">
-                            <div class="textme-twin-field">
-                                <span class="textme-field-hint" data-i18n="Messages (0 = all)">Messages (0 = all)</span>
-                                <input id="textme_rp_inject_messages" type="number" min="0" max="500" step="5" value="20" class="text_pole" />
-                            </div>
-                            <div class="textme-twin-field">
-                                <span class="textme-field-hint" data-i18n="Days (0 = disabled)">Days (0 = disabled)</span>
-                                <input id="textme_rp_inject_days" type="number" min="0" max="365" step="1" value="0" class="text_pole" />
+                        <div class="textme-row">
+                            <label data-i18n="Inject">Inject</label>
+                            <div class="textme-minmax-pair">
+                                <span class="textme-field-hint" data-i18n="msg">msg</span>
+                                <input id="textme_rp_inject_messages" type="number" min="0" max="500" step="5" value="20" class="text_pole textme-input-short" />
+                                <span class="textme-field-hint" data-i18n="days">days</span>
+                                <input id="textme_rp_inject_days" type="number" min="0" max="365" step="1" value="0" class="text_pole textme-input-short" />
                             </div>
                         </div>
 
-                        <label class="textme-mt6" data-i18n="Injection Position">Injection Position</label>
-                        <select id="textme_rp_inject_position" class="text_pole">
-                            <option value="1" data-i18n="In Chat (at depth)">In Chat (at depth)</option>
-                            <option value="0" data-i18n="After System Prompt">After System Prompt</option>
-                            <option value="2" data-i18n="Before System Prompt">Before System Prompt</option>
-                        </select>
+                        <div class="textme-row">
+                            <label data-i18n="Position">Position</label>
+                            <select id="textme_rp_inject_position" class="text_pole textme-select-right">
+                                <option value="1" data-i18n="In Chat (at depth)">In Chat (at depth)</option>
+                                <option value="0" data-i18n="After System Prompt">After System Prompt</option>
+                                <option value="2" data-i18n="Before System Prompt">Before System Prompt</option>
+                            </select>
+                        </div>
 
-                        <label class="textme-label-with-hint textme-mt6">
-                            <span data-i18n="Injection Depth">Injection Depth</span>
-                            <span class="textme-label-sub"
-                                  data-i18n="(0 = after last message; only used with &quot;In Chat&quot;)">
-                                (0 = after last message; only used with "In Chat")
-                            </span>
-                        </label>
-                        <input id="textme_rp_inject_depth" type="number" min="0" max="10000" step="1" value="0" class="text_pole" />
+                        <div class="textme-row">
+                            <label data-i18n="Depth">Depth</label>
+                            <input id="textme_rp_inject_depth" type="number" min="0" max="10000" step="1" value="0" class="text_pole textme-input-short" />
+                        </div>
+                        <p class="textme-hint" data-i18n="0 = after last message; only used with In Chat">0 = after last message; only with "In Chat"</p>
 
-                        <label class="textme-label-with-hint textme-mt6">
-                            <span data-i18n="Role">Role</span>
-                            <span class="textme-label-sub"
-                                  data-i18n="(only applies when Position = &quot;In Chat&quot;)">
-                                (only applies when Position = "In Chat")
-                            </span>
-                        </label>
-                        <select id="textme_rp_inject_role" class="text_pole">
-                            <option value="0" data-i18n="System">System</option>
-                            <option value="1" data-i18n="User">User</option>
-                            <option value="2" data-i18n="Assistant">Assistant</option>
-                        </select>
+                        <div class="textme-row">
+                            <label data-i18n="Role">Role</label>
+                            <select id="textme_rp_inject_role" class="text_pole textme-select-right">
+                                <option value="0" data-i18n="System">System</option>
+                                <option value="1" data-i18n="User">User</option>
+                                <option value="2" data-i18n="Assistant">Assistant</option>
+                            </select>
+                        </div>
 
-                        <label class="textme-mt8">
+                        <label>
                             <span data-i18n="Header">Header</span>
-                            <span class="textme-label-sub">
-                                <span data-i18n="injected inside <sms_history> before the messages. Supports">injected inside &lt;sms_history&gt; before the messages. Supports</span>
-                                <code class="textme-code">{{char}}</code>
-                                <span data-i18n="and">and</span>
-                                <code class="textme-code">{{user}}</code>
-                                <span data-i18n=". Leave empty for none.">. Leave empty for none.</span>
-                            </span>
+                            <span class="textme-label-sub" data-i18n="inside <sms_history>, supports {{char}} {{user}}">— inside &lt;sms_history&gt;, supports <code class="textme-code">{{char}}</code> <code class="textme-code">{{user}}</code></span>
                         </label>
                         <textarea id="textme_rp_inject_header" rows="3" class="text_pole"></textarea>
-                        <button id="textme_rp_inject_header_reset" class="menu_button textme-mt2"
-                                data-i18n="Reset to default">Reset to default</button>
+                        <button id="textme_rp_inject_header_reset" class="menu_button" data-i18n="Reset to default">Reset to default</button>
 
                     </div>
                 </div>
@@ -170,23 +137,11 @@
                             <option value="" data-i18n="— Custom (unsaved) —">— Custom (unsaved) —</option>
                         </select>
                         <div class="textme-preset-actions">
-                            <button id="textme_preset_save" class="menu_button textme-preset-btn" title="Save current prompts as a preset">
-                                <i class="fa-solid fa-floppy-disk"></i>
-                                <span class="textme-preset-btn-label" data-i18n="Save">Save</span>
-                            </button>
-                            <button id="textme_preset_delete" class="menu_button textme-preset-btn" title="Delete selected preset">
-                                <i class="fa-solid fa-trash"></i>
-                            </button>
-                            <button id="textme_preset_export" class="menu_button textme-preset-btn" title="Export all presets as JSON file">
-                                <i class="fa-solid fa-file-export"></i>
-                            </button>
-                            <button id="textme_preset_import" class="menu_button textme-preset-btn" title="Import presets from JSON file">
-                                <i class="fa-solid fa-file-import"></i>
-                            </button>
-                            <button id="textme_preset_reset_all" class="menu_button textme-preset-btn" title="Reset ALL prompts to built-in defaults">
-                                <i class="fa-solid fa-rotate-left"></i>
-                                <span class="textme-preset-btn-label" data-i18n="Reset all">Reset all</span>
-                            </button>
+                            <button id="textme_preset_save"      class="menu_button textme-preset-btn" title="Save"><i class="fa-solid fa-floppy-disk"></i></button>
+                            <button id="textme_preset_delete"    class="menu_button textme-preset-btn" title="Delete"><i class="fa-solid fa-trash"></i></button>
+                            <button id="textme_preset_export"    class="menu_button textme-preset-btn" title="Export JSON"><i class="fa-solid fa-file-export"></i></button>
+                            <button id="textme_preset_import"    class="menu_button textme-preset-btn" title="Import JSON"><i class="fa-solid fa-file-import"></i></button>
+                            <button id="textme_preset_reset_all" class="menu_button textme-preset-btn" title="Reset all to defaults"><i class="fa-solid fa-rotate-left"></i></button>
                         </div>
                     </div>
 
@@ -202,14 +157,9 @@
                     <textarea id="textme_schedule_prompt" rows="4" class="text_pole"></textarea>
                     <button id="textme_schedule_prompt_reset" class="menu_button" data-i18n="Reset to default">Reset to default</button>
 
-                    <hr class="textme-hr-inner" />
-
-                    <label class="textme-label-with-hint">
+                    <label>
                         <span data-i18n="Autonomous Prompt">Autonomous Prompt</span>
-                        <span class="textme-label-sub"
-                              data-i18n="injected as <task> when the character texts first">
-                            injected as <code class="textme-code">&lt;task&gt;</code> when the character texts first
-                        </span>
+                        <span class="textme-label-sub" data-i18n="injected as <task> when char texts first">— as &lt;task&gt; when char texts first</span>
                     </label>
                     <textarea id="textme_autonomous_prompt" rows="6" class="text_pole"></textarea>
                     <button id="textme_autonomous_prompt_reset" class="menu_button" data-i18n="Reset to default">Reset to default</button>
@@ -225,24 +175,20 @@
                 </div>
                 <div class="inline-drawer-content textme-section-body">
 
-                    <p class="textme-hint textme-mb6"
-                       data-i18n="Controls which messages are scanned to activate lorebook entries.">
-                        Controls which messages are scanned to activate lorebook entries.
-                    </p>
+                    <div class="textme-row">
+                        <label data-i18n="Scan Source">Scan Source</label>
+                        <select id="textme_wi_scan_source" class="text_pole textme-select-right">
+                            <option value="sms"  data-i18n="SMS only">SMS only</option>
+                            <option value="rp"   data-i18n="RP chat only">RP chat only</option>
+                            <option value="both" data-i18n="Both">Both</option>
+                        </select>
+                    </div>
 
-                    <label data-i18n="Scan Source">Scan Source</label>
-                    <select id="textme_wi_scan_source" class="text_pole">
-                        <option value="sms"  data-i18n="SMS only — triggers on phone conversation">SMS only — triggers on phone conversation</option>
-                        <option value="rp"   data-i18n="RP chat only — triggers on main story events">RP chat only — triggers on main story events</option>
-                        <option value="both" data-i18n="Both — SMS + RP chat combined">Both — SMS + RP chat combined</option>
-                    </select>
-
-                    <label data-i18n="Scan Depth (messages, 0 = all)">Scan Depth (messages, 0 = all)</label>
-                    <input id="textme_wi_scan_depth" type="number" min="0" max="500" step="5" value="50" class="text_pole" />
-                    <p class="textme-hint textme-mt2"
-                       data-i18n="How many recent messages to check against lorebook keys. 0 scans the entire history.">
-                        How many recent messages to check against lorebook keys. 0 scans the entire history.
-                    </p>
+                    <div class="textme-row">
+                        <label data-i18n="Scan Depth">Scan Depth</label>
+                        <input id="textme_wi_scan_depth" type="number" min="0" max="500" step="5" value="50" class="text_pole textme-input-short" />
+                    </div>
+                    <p class="textme-hint" data-i18n="recent messages to check vs lorebook keys; 0 = all">recent messages to check vs lorebook keys; 0 = all</p>
 
                 </div>
             </div>
@@ -255,51 +201,34 @@
                 </div>
                 <div class="inline-drawer-content textme-section-body">
 
-                    <p class="textme-hint textme-mb8">
-                        <span data-i18n="How long the character waits before replying, based on their current status.">How long the character waits before replying, based on their current status.</span><br>
-                        <span data-i18n="The typing indicator stays visible during the delay.">The typing indicator stays visible during the delay.</span>
-                    </p>
+                    <!-- delay table: status | min [input] max [input] -->
+                    <div class="textme-delay-table">
+                        <span class="textme-delay-status" data-i18n="🟢 Online">🟢 Online</span>
+                        <span class="textme-delay-lbl" data-i18n="min">min</span>
+                        <input id="textme_delay_online_min" type="number" min="0" max="300"  step="1"  value="0"   class="text_pole textme-input-short" />
+                        <span class="textme-delay-lbl" data-i18n="max">max</span>
+                        <input id="textme_delay_online_max" type="number" min="0" max="300"  step="1"  value="3"   class="text_pole textme-input-short" />
+                        <span class="textme-delay-unit" data-i18n="sec">sec</span>
 
-                    <div class="textme-delay-grid">
-                        <!-- Online -->
-                        <label class="textme-delay-label" data-i18n="🟢 Online — delay (sec)">🟢 Online — delay (sec)</label>
-                        <div class="textme-minmax-row">
-                            <span class="textme-minmax-lbl" data-i18n="Min">Min</span>
-                            <input id="textme_delay_online_min" type="number" min="0" max="300" step="1" value="0" class="text_pole textme-minmax-input" />
-                            <span class="textme-minmax-lbl" data-i18n="Max">Max</span>
-                            <input id="textme_delay_online_max" type="number" min="0" max="300" step="1" value="3"  class="text_pole textme-minmax-input" />
-                        </div>
+                        <span class="textme-delay-status" data-i18n="🟡 Idle">🟡 Idle</span>
+                        <span class="textme-delay-lbl" data-i18n="min">min</span>
+                        <input id="textme_delay_idle_min" type="number"   min="0" max="3600" step="5"  value="30"  class="text_pole textme-input-short" />
+                        <span class="textme-delay-lbl" data-i18n="max">max</span>
+                        <input id="textme_delay_idle_max" type="number"   min="0" max="3600" step="5"  value="120" class="text_pole textme-input-short" />
+                        <span class="textme-delay-unit" data-i18n="sec">sec</span>
 
-                        <!-- Idle -->
-                        <label class="textme-delay-label" data-i18n="🟡 Idle — delay (sec)">🟡 Idle — delay (sec)</label>
-                        <div class="textme-minmax-row">
-                            <span class="textme-minmax-lbl" data-i18n="Min">Min</span>
-                            <input id="textme_delay_idle_min" type="number" min="0" max="3600" step="5" value="30"  class="text_pole textme-minmax-input" />
-                            <span class="textme-minmax-lbl" data-i18n="Max">Max</span>
-                            <input id="textme_delay_idle_max" type="number" min="0" max="3600" step="5" value="120" class="text_pole textme-minmax-input" />
-                        </div>
-
-                        <!-- DND -->
-                        <label class="textme-delay-label" data-i18n="🔴 DND — delay (sec)">🔴 DND — delay (sec)</label>
-                        <div class="textme-minmax-row">
-                            <span class="textme-minmax-lbl" data-i18n="Min">Min</span>
-                            <input id="textme_delay_dnd_min" type="number" min="0" max="3600" step="5" value="5"   class="text_pole textme-minmax-input" />
-                            <span class="textme-minmax-lbl" data-i18n="Max">Max</span>
-                            <input id="textme_delay_dnd_max" type="number" min="0" max="3600" step="5" value="20"  class="text_pole textme-minmax-input" />
-                        </div>
+                        <span class="textme-delay-status" data-i18n="🔴 DND">🔴 DND</span>
+                        <span class="textme-delay-lbl" data-i18n="min">min</span>
+                        <input id="textme_delay_dnd_min" type="number"    min="0" max="3600" step="5"  value="5"   class="text_pole textme-input-short" />
+                        <span class="textme-delay-lbl" data-i18n="max">max</span>
+                        <input id="textme_delay_dnd_max" type="number"    min="0" max="3600" step="5"  value="20"  class="text_pole textme-input-short" />
+                        <span class="textme-delay-unit" data-i18n="sec">sec</span>
                     </div>
 
-                    <hr class="textme-hr-inner" />
-
-                    <!-- Read Receipts -->
                     <label class="checkbox_label">
                         <input id="textme_read_receipts" type="checkbox" checked />
                         <span data-i18n="Show Read Receipts (✓ Delivered → ✓✓ Read)">Show Read Receipts (✓ Delivered → ✓✓ Read)</span>
                     </label>
-                    <p class="textme-hint textme-mt2"
-                       data-i18n="&quot;Delivered&quot; appears instantly. &quot;Read&quot; appears when the response delay ends and the character starts typing.">
-                        "Delivered" appears instantly. "Read" appears when the response delay ends and the character starts typing.
-                    </p>
 
                 </div>
             </div>
@@ -316,43 +245,29 @@
                         <input id="textme_schedule_enabled" type="checkbox" />
                         <span data-i18n="Enable Schedule">Enable Schedule</span>
                     </label>
-
-                    <label class="checkbox_label textme-mt4">
+                    <label class="checkbox_label">
                         <input id="textme_schedule_include_context" type="checkbox" />
-                        <span data-i18n="Include RP context when generating schedule">Include RP context when generating schedule</span>
+                        <span data-i18n="Include RP context when generating">Include RP context when generating</span>
                     </label>
-                    <p class="textme-hint textme-hint-indented"
-                       data-i18n="Injects the last N RP chat messages into the schedule generation prompt (uses the &quot;RP Context Messages&quot; setting above).">
-                        Injects the last N RP chat messages into the schedule generation prompt
-                        (uses the "RP Context Messages" setting above).
-                    </p>
-
                     <label class="checkbox_label">
                         <input id="textme_schedule_include_wi" type="checkbox" />
-                        <span data-i18n="Include lorebook / World Info when generating schedule">Include lorebook / World Info when generating schedule</span>
+                        <span data-i18n="Include World Info when generating">Include World Info when generating</span>
                     </label>
-                    <p class="textme-hint textme-hint-indented textme-mb6"
-                       data-i18n="Injects active lorebook entries (scanned from SMS history) so the AI can factor in world-specific facts when generating the weekly schedule.">
-                        Injects active lorebook entries (scanned from SMS history) so the AI
-                        can factor in world-specific facts when generating the weekly schedule.
-                    </p>
 
                     <div class="textme-btn-group">
                         <button id="textme_generate_schedule" class="menu_button">
                             <i class="fa-solid fa-calendar-days"></i>
-                            <span data-i18n="Generate Schedule">Generate Schedule</span>
+                            <span data-i18n="Generate">Generate</span>
                         </button>
                         <button id="textme_open_schedule_modal" class="menu_button">
                             <i class="fa-solid fa-table"></i>
-                            <span data-i18n="Schedule &amp; Status">Schedule &amp; Status</span>
+                            <span data-i18n="View / Edit">View / Edit</span>
                         </button>
-                        <button id="textme_export_schedule" class="menu_button">
+                        <button id="textme_export_schedule" class="menu_button" title="Export JSON">
                             <i class="fa-solid fa-file-export"></i>
-                            <span data-i18n="Export JSON">Export JSON</span>
                         </button>
-                        <button id="textme_import_schedule" class="menu_button">
+                        <button id="textme_import_schedule" class="menu_button" title="Import JSON">
                             <i class="fa-solid fa-file-import"></i>
-                            <span data-i18n="Import JSON">Import JSON</span>
                         </button>
                     </div>
 
@@ -374,38 +289,35 @@
                         <span data-i18n="Enable Autonomous Messages">Enable Autonomous Messages</span>
                     </label>
 
-                    <p class="textme-hint textme-mt4 textme-mb6"
-                       data-i18n="How long the character waits before texting first, based on their status.">
-                        How long the character waits before texting first, based on their status.
-                    </p>
+                    <!-- threshold table: same grid as delay-table but 1 input -->
+                    <div class="textme-delay-table textme-delay-table--single">
+                        <span class="textme-delay-status" data-i18n="🟢 Online">🟢 Online</span>
+                        <input id="textme_autonomous_threshold_online" type="number" min="1" max="1440" step="1"  value="5"  class="text_pole textme-input-short" />
+                        <span class="textme-delay-unit" data-i18n="min inactive">min inactive</span>
 
-                    <div class="textme-delay-grid textme-delay-grid--single">
-                        <label class="textme-delay-label" data-i18n="🟢 Online — inactivity threshold (min)">🟢 Online — inactivity threshold (min)</label>
-                        <input id="textme_autonomous_threshold_online" type="number" min="1" max="1440" step="1" value="5" class="text_pole" />
+                        <span class="textme-delay-status" data-i18n="🟡 Idle">🟡 Idle</span>
+                        <input id="textme_autonomous_threshold_idle"   type="number" min="1" max="1440" step="5"  value="15" class="text_pole textme-input-short" />
+                        <span class="textme-delay-unit" data-i18n="min inactive">min inactive</span>
 
-                        <label class="textme-delay-label" data-i18n="🟡 Idle — inactivity threshold (min)">🟡 Idle — inactivity threshold (min)</label>
-                        <input id="textme_autonomous_threshold_idle" type="number" min="1" max="1440" step="5" value="15" class="text_pole" />
-
-                        <label class="textme-delay-label" data-i18n="🔴 DND — inactivity threshold (min)">🔴 DND — inactivity threshold (min)</label>
-                        <input id="textme_autonomous_threshold_dnd" type="number" min="1" max="1440" step="5" value="30" class="text_pole" />
+                        <span class="textme-delay-status" data-i18n="🔴 DND">🔴 DND</span>
+                        <input id="textme_autonomous_threshold_dnd"    type="number" min="1" max="1440" step="5"  value="30" class="text_pole textme-input-short" />
+                        <span class="textme-delay-unit" data-i18n="min inactive">min inactive</span>
                     </div>
 
-                    <hr class="textme-hr-inner" />
+                    <div class="textme-row">
+                        <label data-i18n="Max Follow-ups">Max Follow-ups</label>
+                        <input id="textme_max_followups" type="number" min="1" max="10" step="1" value="3" class="text_pole textme-input-short" />
+                    </div>
 
-                    <label data-i18n="Max Follow-ups (without user reply)">Max Follow-ups (without user reply)</label>
-                    <input id="textme_max_followups" type="number" min="1" max="10" step="1" value="3" class="text_pole" />
-
-                    <label class="checkbox_label textme-mt4">
+                    <label class="checkbox_label">
                         <input id="textme_cooldown_escalation" type="checkbox" checked />
                         <span data-i18n="Cooldown Escalation (×2 each follow-up)">Cooldown Escalation (×2 each follow-up)</span>
                     </label>
 
-                    <label class="textme-mt4" data-i18n="Cooldown Cap (max threshold, minutes)">Cooldown Cap (max threshold, minutes)</label>
-                    <input id="textme_cooldown_cap" type="number" min="5" max="1440" step="5" value="120" class="text_pole" />
-                    <p class="textme-hint textme-mt2"
-                       data-i18n="Escalation stops growing once the threshold reaches this value.">
-                        Escalation stops growing once the threshold reaches this value.
-                    </p>
+                    <div class="textme-row">
+                        <label data-i18n="Cooldown Cap (min)">Cooldown Cap (min)</label>
+                        <input id="textme_cooldown_cap" type="number" min="5" max="1440" step="5" value="120" class="text_pole textme-input-short" />
+                    </div>
 
                 </div>
             </div>
@@ -418,15 +330,13 @@
                 </div>
                 <div class="inline-drawer-content textme-section-body">
 
-                    <p class="textme-hint textme-mb6">
-                        <span data-i18n="Custom in-story time for the character's clock.">Custom in-story time for the character's clock.</span><br>
-                        <span data-i18n="When enabled, the AI will see the game time instead of your real clock.">When enabled, the AI will see the game time instead of your real clock.</span>
-                    </p>
-                    <button id="textme_open_time_editor" class="menu_button">
-                        <i class="fa-solid fa-clock"></i>
-                        <span data-i18n="Configure Game Time">Configure Game Time</span>
-                    </button>
-                    <div id="textme_time_status" class="textme-hint textme-mt4"></div>
+                    <div class="textme-field-row">
+                        <button id="textme_open_time_editor" class="menu_button">
+                            <i class="fa-solid fa-clock"></i>
+                            <span data-i18n="Configure Game Time">Configure Game Time</span>
+                        </button>
+                        <span id="textme_time_status" class="textme-hint"></span>
+                    </div>
 
                 </div>
             </div>
@@ -439,53 +349,64 @@
                 </div>
                 <div class="inline-drawer-content textme-section-body">
 
-                    <label data-i18n="Theme">Theme</label>
-                    <select id="textme_theme">
-                        <option value="dark"  data-i18n="Dark">Dark</option>
-                        <option value="light" data-i18n="Light">Light</option>
-                    </select>
+                    <div class="textme-row">
+                        <label data-i18n="Theme">Theme</label>
+                        <select id="textme_theme" class="text_pole textme-select-right">
+                            <option value="dark"  data-i18n="Dark">Dark</option>
+                            <option value="light" data-i18n="Light">Light</option>
+                        </select>
+                    </div>
 
-                    <label data-i18n="Color Scheme">Color Scheme</label>
-                    <select id="textme_color_scheme">
-                        <option value="default"  data-i18n="Default (Purple)">Default (Purple)</option>
-                        <option value="imessage" data-i18n="iMessage (Blue)">iMessage (Blue)</option>
-                        <option value="whatsapp" data-i18n="WhatsApp (Green)">WhatsApp (Green)</option>
-                    </select>
+                    <div class="textme-row">
+                        <label data-i18n="Color Scheme">Color Scheme</label>
+                        <select id="textme_color_scheme" class="text_pole textme-select-right">
+                            <option value="default"  data-i18n="Default (Purple)">Default (Purple)</option>
+                            <option value="imessage" data-i18n="iMessage (Blue)">iMessage (Blue)</option>
+                            <option value="whatsapp" data-i18n="WhatsApp (Green)">WhatsApp (Green)</option>
+                        </select>
+                    </div>
 
-                    <label data-i18n="Phone Size">Phone Size</label>
-                    <select id="textme_phone_size">
-                        <option value="normal"     data-i18n="Normal (375×670)">Normal (375×670)</option>
-                        <option value="large"      data-i18n="Large (420×750)">Large (420×750)</option>
-                        <option value="fullscreen" data-i18n="Fullscreen">Fullscreen</option>
-                    </select>
+                    <div class="textme-row">
+                        <label data-i18n="Phone Size">Phone Size</label>
+                        <select id="textme_phone_size" class="text_pole textme-select-right">
+                            <option value="normal"     data-i18n="Normal (375×670)">Normal (375×670)</option>
+                            <option value="large"      data-i18n="Large (420×750)">Large (420×750)</option>
+                            <option value="fullscreen" data-i18n="Fullscreen">Fullscreen</option>
+                        </select>
+                    </div>
 
-                    <label data-i18n="Phone Position">Phone Position</label>
-                    <select id="textme_phone_position">
-                        <option value="right"    data-i18n="Right">Right</option>
-                        <option value="center"   data-i18n="Center">Center</option>
-                        <option value="left"     data-i18n="Left">Left</option>
-                        <option value="floating" data-i18n="Floating">Floating</option>
-                    </select>
+                    <div class="textme-row">
+                        <label data-i18n="Phone Position">Phone Position</label>
+                        <select id="textme_phone_position" class="text_pole textme-select-right">
+                            <option value="right"    data-i18n="Right">Right</option>
+                            <option value="center"   data-i18n="Center">Center</option>
+                            <option value="left"     data-i18n="Left">Left</option>
+                            <option value="floating" data-i18n="Floating">Floating</option>
+                        </select>
+                    </div>
 
                     <label class="checkbox_label">
                         <input id="textme_sound_effects" type="checkbox" checked />
                         <span data-i18n="Sound Effects">Sound Effects</span>
                     </label>
 
-                    <label data-i18n="Sound Volume">Sound Volume</label>
-                    <div class="textme-volume-row">
-                        <input id="textme_sound_volume" type="range" min="0" max="100" step="5" value="70" class="textme-volume-slider" />
-                        <span id="textme_sound_volume_value" class="textme-volume-value">70%</span>
+                    <div class="textme-row">
+                        <label data-i18n="Volume">Volume</label>
+                        <div class="textme-volume-row">
+                            <input id="textme_sound_volume" type="range" min="0" max="100" step="5" value="70" class="textme-volume-slider" />
+                            <span id="textme_sound_volume_value" class="textme-volume-value">70%</span>
+                        </div>
                     </div>
 
-                    <label class="checkbox_label">
-                        <input id="textme_browser_notifications" type="checkbox" />
-                        <span data-i18n="Browser Notifications (when tab is unfocused)">Browser Notifications (when tab is unfocused)</span>
-                    </label>
-                    <button id="textme_request_notif_permission" class="menu_button textme-mt2">
-                        <i class="fa-solid fa-bell"></i>
-                        <span data-i18n="Request Permission">Request Permission</span>
-                    </button>
+                    <div class="textme-field-row">
+                        <label class="checkbox_label">
+                            <input id="textme_browser_notifications" type="checkbox" />
+                            <span data-i18n="Browser Notifications">Browser Notifications</span>
+                        </label>
+                        <button id="textme_request_notif_permission" class="menu_button textme-btn-sm" title="Request permission">
+                            <i class="fa-solid fa-bell"></i>
+                        </button>
+                    </div>
 
                     <label class="checkbox_label">
                         <input id="textme_show_timestamps" type="checkbox" checked />
