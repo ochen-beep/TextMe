@@ -963,7 +963,7 @@
 }
 .textme-sched-day-row {
     display: grid;
-    grid-template-columns: 90px 1fr auto;
+    grid-template-columns: minmax(80px, 110px) 1fr auto;
     align-items: center;
     gap: 10px;
 }
@@ -971,6 +971,11 @@
     font-size: 13px;
     font-weight: 600;
     white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex-wrap: nowrap;
+    min-width: 0;
 }
 .textme-sched-today-badge {
     display: inline-block;
@@ -979,7 +984,8 @@
     color: #fff;
     border-radius: 4px;
     padding: 1px 5px;
-    margin-left: 6px;
+    flex-shrink: 0;
+    line-height: 1.4;
     vertical-align: middle;
 }
 .textme-sched-timeline {
@@ -1050,12 +1056,12 @@
 .textme-timeline-bar {
     display: flex;
     width: 100%;
-    border-radius: 4px;
+    border-radius: 5px;
     overflow: hidden;
-    height: 8px;
+    height: 16px;
 }
 .textme-timeline-seg {
-    height: 8px;
+    height: 16px;
 }
 
 /* ── Settings Panel ── */
