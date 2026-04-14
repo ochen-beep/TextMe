@@ -61,7 +61,17 @@ async function init() {
 }
 
 // Bootstrap
+// FIX (T-04): wrap init() in async try/catch so any uncaught error during
+// initialisation is surfaced to the user via toastr instead of disappearing
+// as a silent unhandled promise rejection.
 (function bootstrap() {
     const { eventSource, event_types } = SillyTavern.getContext();
-    eventSource.on(event_types.APP_READY, () => init());
+    eventSource.on(event_types.APP_READY, async () => {
+        try {
+            await init();
+        } catch (e) {
+            log.error('[TextMe] Initialization failed:', e);
+            toastr.error(`TextMe failed to load: ${e?.message || e}`, 'TextMe', { timeOut: 0 });
+        }
+    });
 })();
