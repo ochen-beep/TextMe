@@ -848,7 +848,16 @@
     margin: 0;
 }
 
-/* All form controls inside our popups — override Firefox/system styles */
+/* All form controls inside our popups — override Firefox/system styles.
+ *
+ * IMPORTANT: --SmartThemeBodyColor is the TEXT colour, NOT the background.
+ * Using it as background-color gives white fields in dark themes (Firefox bug surface).
+ * Correct variables for backgrounds:
+ *   --SmartThemeBodyBG  — main page background
+ *   --SmartThemeBlurTintColor — panel/input background in most ST themes
+ *   --in-editor-color   — explicit editor BG in newer ST builds
+ * Fallback chain (last wins): plain semi-transparent → ST blur tint → ST editor color.
+ */
 .textme-popup input[type="text"],
 .textme-popup input[type="number"],
 .textme-popup input[type="time"],
@@ -856,10 +865,9 @@
 .textme-popup input[type="range"],
 .textme-popup select,
 .textme-popup textarea {
-    background: var(--SmartThemeBlurTintColor, var(--SmartThemeBodyColor, transparent));
-    background: var(--in-editor-color, var(--SmartThemeBodyColor, transparent));
-    /* Use ST's actual input background — most themes define one of these */
-    background-color: color-mix(in srgb, var(--SmartThemeBodyColor, #fff) 8%, transparent);
+    background-color: rgba(128, 128, 128, 0.12);
+    background-color: var(--SmartThemeBlurTintColor, rgba(128, 128, 128, 0.12));
+    background-color: var(--in-editor-color, var(--SmartThemeBlurTintColor, rgba(128, 128, 128, 0.12)));
     color: var(--SmartThemeBodyColor, inherit);
     border: 1px solid var(--SmartThemeBorderColor, rgba(128,128,128,0.4));
     border-radius: 6px;
@@ -871,19 +879,6 @@
     width: 100%;
     /* Prevent Firefox orange glow on invalid */
     box-shadow: none;
-}
-
-/* Override the color-mix hack above with a simpler approach:
-   Use the same variables that .text_pole uses in ST */
-.textme-popup input[type="text"],
-.textme-popup input[type="number"],
-.textme-popup input[type="time"],
-.textme-popup input[type="datetime-local"],
-.textme-popup select,
-.textme-popup textarea {
-    background-color: var(--SmartThemeBodyColor, rgba(128,128,128,0.08));
-    /* SmartThemeBodyColor is usually the page BG — works as input BG in dark themes.
-       For light themes it's white, which also looks fine. */
     opacity: 1;
 }
 
@@ -988,7 +983,9 @@
     vertical-align: middle;
 }
 .textme-sched-timeline {
-    /* container for the colored bar */
+    /* container for the colored bar — grid cell, min-width:0 prevents overflow */
+    min-width: 0;
+    overflow: hidden;
 }
 .textme-sched-edit-btn {
     font-size: 12px;
@@ -1052,6 +1049,7 @@
 /* Timeline bar segments */
 .textme-timeline-bar {
     display: flex;
+    width: 100%;
     border-radius: 4px;
     overflow: hidden;
     height: 8px;
