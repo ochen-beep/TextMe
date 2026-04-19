@@ -164,6 +164,33 @@
                     <textarea id="textme_autonomous_prompt" rows="6" class="text_pole"></textarea>
                     <button id="textme_autonomous_prompt_reset" class="menu_button" data-i18n="Reset to default">Reset to default</button>
 
+                    <!-- ── Conversation Gap ── -->
+                    <div class="textme-subsection-header" style="margin-top:12px; margin-bottom:4px;">
+                        <span data-i18n="Conversation Gap">Conversation Gap</span>
+                        <span class="textme-label-sub" data-i18n="injected into <context> when user has been silent">— injected into &lt;context&gt; when {{user}} is silent</span>
+                    </div>
+                    <p class="textme-hint" data-i18n="Thresholds in minutes. Set to 0 to disable a level. Supports {{user}} and {{gap}} macros.">Thresholds in minutes · 0 = disable · supports <code class="textme-code">{{user}}</code> <code class="textme-code">{{gap}}</code></p>
+
+                    <div class="textme-row">
+                        <label data-i18n="Short gap threshold (min)">Short gap (min)</label>
+                        <input id="textme_gap_threshold_short" type="number" min="0" max="1440" step="5" value="20" class="text_pole textme-input-short" />
+                    </div>
+                    <textarea id="textme_gap_prompt_short" rows="2" class="text_pole"></textarea>
+
+                    <div class="textme-row" style="margin-top:6px;">
+                        <label data-i18n="Long gap threshold (min)">Long gap (min)</label>
+                        <input id="textme_gap_threshold_long" type="number" min="0" max="1440" step="15" value="60" class="text_pole textme-input-short" />
+                    </div>
+                    <textarea id="textme_gap_prompt_long" rows="2" class="text_pole"></textarea>
+
+                    <div class="textme-row" style="margin-top:6px;">
+                        <label data-i18n="Days gap threshold (min)">Days gap (min)</label>
+                        <input id="textme_gap_threshold_days" type="number" min="0" max="10080" step="60" value="1440" class="text_pole textme-input-short" />
+                    </div>
+                    <textarea id="textme_gap_prompt_days" rows="2" class="text_pole"></textarea>
+
+                    <button id="textme_gap_prompts_reset" class="menu_button" style="margin-top:4px;" data-i18n="Reset to default">Reset to default</button>
+
                 </div>
             </div>
 
